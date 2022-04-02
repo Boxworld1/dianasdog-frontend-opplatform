@@ -41,7 +41,7 @@ export default {
     onSubmit(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          this.$router.push("/");
+          this.$router.push({name: "home", params:{name: this.form.name}});
         } else {
           this.$message({
             message: "用户名或密码错误",
