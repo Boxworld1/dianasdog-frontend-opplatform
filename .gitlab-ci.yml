@@ -16,7 +16,7 @@ build:
 
 # Job template for test stage
 .test:
-  image: node:12.18.3
+  image: node:14.17.3
   stage: test
 
   cache:
