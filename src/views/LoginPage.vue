@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="form" :rules="rules" :model="form" class="login-box">
+    <el-form ref="form" :rules="rules" :model="form" class="login-box" @keyup.enter.native="onSubmit('form')">
       <h3 class="login-title">欢迎登录</h3>
       <el-form-item label="用户名" prop="name">
         <el-input type="text" placeholder="请输入用户名" v-model="form.name" />
@@ -41,6 +41,8 @@ export default {
     onSubmit(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
+          sessionStorage.setItem('isLogin','true');
+          this.$store.dispatch("asyncUpdateUser", {name: this.form.name});
           this.$router.push({name: "home", params:{name: this.form.name}});
         } else {
           this.$message({
