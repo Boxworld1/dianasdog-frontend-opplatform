@@ -28,9 +28,7 @@
           <el-dropdown>
             <i class="el-icon-setting" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>查看</el-dropdown-item>
-              <el-dropdown-item>新增</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
+              <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <span>{{ $store.getters.getUser.name }}</span>
@@ -48,6 +46,11 @@
 export default {
   name: "HomeView",
   components: {},
+  methods: {
+    logout() {
+      this.$router.push('/logout');
+    }
+  },
 };
 </script>
 
