@@ -2,33 +2,24 @@
   <div>
     <el-container>
       <el-aside width="200px">
-        <el-menu :default-openeds="['1']">
-          <el-submenu index="1">
-            <template slot="title"
-              ><i class="el-icon-message"></i>redis</template
-            >
-            <el-menu-item-group>
-              <el-menu-item index="1-1"
-                ><router-link to="/redis/management" class="router-link-active"
-                  >redis数据管理</router-link
-                ></el-menu-item
+        <el-menu>
+          <el-menu-item-group>
+            <el-menu-item index="1">
+              <router-link to="/pattern" class="router-link-active"
+                ><i class="el-icon-message"></i>模版配置</router-link
               >
-              <el-menu-item index="1-2"
-                ><router-link to="/redis/check" class="router-link-active"
-                  >redis数据查看</router-link
-                ></el-menu-item
+            </el-menu-item>
+            <el-menu-item index="2">
+              <router-link to="/writesetting" class="router-link-active"
+                ><i class="el-icon-message"></i>写入描述</router-link
               >
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title"
-              ><i class="el-icon-message"></i>elasticSearch</template
-            >
-            <el-menu-item-group>
-              <el-menu-item index="2-1">elasticSearch数据查询</el-menu-item>
-              <el-menu-item index="2-2">elasticSearch数据管理</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+            </el-menu-item>
+            <el-menu-item index="3">
+              <router-link to="/datamanage" class="router-link-active"
+                ><i class="el-icon-message"></i>数据管理</router-link
+              >
+            </el-menu-item>
+          </el-menu-item-group>
         </el-menu>
       </el-aside>
 
