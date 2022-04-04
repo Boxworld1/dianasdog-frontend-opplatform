@@ -1,6 +1,12 @@
 <template>
   <div>
-    <el-form ref="form" :rules="rules" :model="form" class="login-box" @keyup.enter.native="onSubmit('form')">
+    <el-form
+      ref="form"
+      :rules="rules"
+      :model="form"
+      class="login-box"
+      @keyup.enter.native="onSubmit('form')"
+    >
       <h3 class="login-title">欢迎登录</h3>
       <el-form-item label="用户名" prop="name">
         <el-input type="text" placeholder="请输入用户名" v-model="form.name" />
@@ -38,16 +44,27 @@ export default {
     };
   },
   methods: {
+    check() {
+      var json = this.$store.getters.getAdmin;
+      for (var p in json){
+        if (p  === this.form.name) {
+          if (json[p] === this.form.password)
+            return true;
+          else return false;
+        }
+      }
+      return false;
+    },
     onSubmit(form) {
       this.$refs[form].validate((valid) => {
-        if (valid) {
-          sessionStorage.setItem('isLogin','true');
-          this.$store.dispatch("asyncUpdateUser", {name: this.form.name});
-          this.$router.push({name: "home", params:{name: this.form.name}});
+        if (valid && this.check()) {
+          sessionStorage.setItem("isLogin", "true");
+          this.$store.dispatch("asyncUpdateUser", { name: this.form.name });
+          this.$router.push({ name: "home" });
         } else {
           this.$message({
             message: "用户名或密码错误",
-            type: "warning"
+            type: "warning",
           });
           return false;
         }
