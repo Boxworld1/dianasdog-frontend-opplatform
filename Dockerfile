@@ -17,6 +17,7 @@ RUN npm run build
 # Second stage
 FROM nginx:1.18.0
 
+ENV REFRESH_DATE 2022-04-06
 ENV HOME=/opt/app
 
 WORKDIR $HOME
