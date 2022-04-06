@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginPage from '../views/LoginPage.vue'
-import RedisManagement from '../views/redis/RedisManagement.vue'
-import RedisCheck from '../views/redis/RedisCheck.vue'
+import PatternConfig from '../views/PatternConfig.vue'
+import WriteSetting from '../views/WriteSetting.vue'
+import DataManagement from '../views/DataManagement.vue'
 import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
@@ -16,17 +17,23 @@ const routes = [
     component: HomeView,
     children:[
       {
-        //redis数据管理
-        path: '/redis/management',
-        name: 'RedisManagement',
-        component: RedisManagement
+        //模版配置
+        path: '/pattern',
+        name: 'PatternConfig',
+        component: PatternConfig
       },
       {
-        //redis数据查看
-        path: '/redis/check',
-        name: 'RedisCheck',
-        component: RedisCheck
+        //写入行为描述
+        path: '/writesetting',
+        name: 'WriteSetting',
+        component: WriteSetting
       },
+      {
+        //数据管理
+        path: '/datamanage',
+        name: 'DataManagement',
+        component: DataManagement
+      }
     ]
   },
   {
@@ -34,7 +41,6 @@ const routes = [
     path: '/login',
     name: 'LoginPage',
     component: LoginPage,
-    props: true
   },
   {
     path: '*',

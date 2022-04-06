@@ -1,12 +1,12 @@
 <template>
   <div>
-    redis数据查看
+    DataManagement
   </div>
 </template>
 
 <script>
 export default {
-  name: "RedisCheck",
+  name: "DataManagement",
 }
 </script>
 
