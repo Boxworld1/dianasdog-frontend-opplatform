@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import bcrypt from 'bcryptjs'
+import request_json from '../utils/communication'
 export default {
   name: "LoginPage",
   data() {
@@ -41,9 +43,19 @@ export default {
           { min: 6, max: 25, message: "密码字符数在6-25间", trigger: "blur" },
         ],
       },
+      passwdValid: false,
     };
   },
   methods: {
+    back_check(val) {
+      if (val === false){
+        this.passwdValid = false;
+      } else {
+        bcrypt.compare(this.form.password, val, (err, res) => {
+            this.passwdValid = res;
+        });
+      }
+    },
     check() {
       var json = this.$store.getters.getAdmin;
       for (var p in json){
@@ -55,9 +67,16 @@ export default {
       }
       return false;
     },
+    check_pass() {
+      var user = {
+        "username": this.form.name,
+      }
+      request_json.POST_User(this.back_check, user);
+    },
     onSubmit(form) {
+      this.check_pass();
       this.$refs[form].validate((valid) => {
-        if (valid && this.check()) {
+        if (valid && this.passwdValid) {
           sessionStorage.setItem("isLogin", "true");
           this.$store.dispatch("asyncUpdateUser", { name: this.form.name });
           this.$router.push({ name: "home" });

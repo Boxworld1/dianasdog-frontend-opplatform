@@ -13,11 +13,25 @@ const request_json = {
       })
   },
   POST: (post_function, new_message, url) => {
-    console.log(new_message)
-    axios.post(url, new_message)
+    axios.post(url, JSON.stringify(new_message))
       .then((res) => {
         if (res.status === 201 || res.status === 200) {
           post_function(true)
+        }
+        else {
+          post_function(false)
+        }
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  },
+  POST_User: (post_function, new_message) => {
+    axios.post('/login', JSON.stringify(new_message))
+      .then((res) => {
+        if (res.status === 201 || res.status === 200) {
+          let pass = res.data.password
+          post_function(pass)
         }
         else {
           post_function(false)

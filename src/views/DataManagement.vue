@@ -65,6 +65,18 @@
         >
       </div>
     </el-row>
+    <el-row class="el-row-style">
+      <el-col :span="6">修改数据</el-col>
+      <el-col :span="6">
+        <el-select v-model="deleteResource" placeholder="特性卡名称">
+          <el-option label="目标一" value="car"></el-option>
+          <el-option label="目标二" value="poem"></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="12">
+      <!-- 提供一个搜索item的key -->
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -78,11 +90,17 @@ export default {
       fileList: [],
       deleteFile: "",
       deleteButtonDisable: true,
-      options: [], //todo:初始化没写
+      options: [],
       deleteResource: "",
     };
   },
+  mounted() {
+    request_json.GET(this.get_options, "/options");
+  },
   methods: {
+    get_options(val) {
+      this.options = val; //要求后端存储为一个json数组,形式为[{"value": },{},{}]
+    },
     fileChange(file, fileList) {
       this.fileList.push(file);
     },

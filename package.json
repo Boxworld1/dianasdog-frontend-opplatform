@@ -26,6 +26,8 @@
     "@vue/vue2-jest": "^27.0.0-alpha.2",
     "axios": "^0.26.1",
     "babel-jest": "^27.0.6",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "jest": "^27.0.5",

@@ -11,6 +11,11 @@
         <el-input type="textarea" v-model="form.pattern"></el-input>
       </el-form-item>
       <el-form-item>
+        <el-upload
+        class="upload-demo"
+        :http-request="uploadFile">
+        <el-button size="small" type="primary" :disabled="uploadDisable">点击上传</el-button>
+        </el-upload>
         <el-button type="primary" @click="onSubmit('form')">提交</el-button>
         <el-button>取消</el-button>
       </el-form-item>
@@ -31,9 +36,19 @@ export default {
       rules: {
         target: [{ required: true, message: "目标不能为空", trigger: "blur" }],
       },
+      uploadDisable:true,
     };
   },
   methods: {
+    upload_succ(bool) {
+      return bool;
+    },
+    uploadFile(file) {
+      let formData = new FormData();
+      formData.append('file', file.raw);
+      formData.append('resource', this.form.pattern);
+      request_json.POST_File(this.upload_succ, formData, '/pattern');
+    },
     check_post(bool) {
             if (bool) {
         alert("查询成功！");
@@ -64,6 +79,17 @@ export default {
       });
     },
   },
+  watch:{
+    "form.target": {
+      handler(target) {
+        if (target === "") {
+          this.uploadDisable = true;
+        } else {
+          this.uploadDisable = false;
+        }
+      }
+    }
+  }
 };
 </script>
 
