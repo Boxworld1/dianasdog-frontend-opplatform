@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import request_json from '@/utils/communication';
 export default {
   name: "WriteSetting",
   data() {
@@ -33,11 +34,22 @@ export default {
     };
   },
   methods: {
+    check_post(bool) {
+      if (bool) {
+        alert("查询成功！");
+      } else {
+        alert("查询失败！");
+      }
+    },
     onSubmit(form) {
       //todo:与后端通信，提交文件
       this.$refs[form].validate((valid) => {
         if (valid) {
-          alert("提交成功！");
+          var setting_json = {
+            "word": this.form.target,
+            "data": this.form.setting
+          }
+          request_json.POST(this.check_post, setting_json, '/setting')
           this.form.target = "";
           this.form.setting = "";
         } else {

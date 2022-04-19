@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import request_json from '../utils/communication'
 export default {
   name: "PatternConfig",
   data() {
@@ -33,11 +34,24 @@ export default {
     };
   },
   methods: {
+    check_post(bool) {
+            if (bool) {
+        alert("查询成功！");
+      } else {
+        alert("查询失败！");
+      }
+    },
     onSubmit(form) {
       //todo:与后端通信，提交文件
       this.$refs[form].validate((valid) => {
         if (valid) {
-          alert("提交成功！");
+          var pattern_json = {
+            "resource": this.form.target,
+            "data": JSON.parse(this.form.pattern)
+          }
+          console.log("hello")
+          request_json.POST(this.check_post, pattern_json, '/pattern')
+          console.log("hellll")
           this.form.target = "";
           this.form.pattern = "";
         } else {
