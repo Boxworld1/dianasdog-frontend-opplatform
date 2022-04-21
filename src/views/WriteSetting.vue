@@ -11,7 +11,7 @@
         <el-input type="textarea" v-model="form.setting"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-upload class="upload-demo" :http-request="uploadFile">
+        <el-upload ref='upload' action='#' class="upload-demo" :http-request="uploadFile">
           <el-button size="small" type="primary" :disabled="uploadDisable"
             >点击上传</el-button
           >
@@ -42,10 +42,13 @@ export default {
     upload_succ(bool) {
       return bool;
     },
-    uploadFile(file) {
+    async uploadFile(param) {
+      console.log('upload')
+      file = param.file
       let formData = new FormData();
       formData.append("file", file.raw);
-      formData.append("resource", this.form.pattern);
+      formData.append("resource", this.form.target);
+      console.log('fff')
       request_json.POST_File(this.upload_succ, formData, "/setting");
     },
 
@@ -60,11 +63,10 @@ export default {
       //todo:与后端通信，提交文件
       this.$refs[form].validate((valid) => {
         if (valid) {
-          var setting_json = {
-            resource: this.form.target,
-            data: this.form.setting,
-          };
-          request_json.POST(this.check_post, setting_json, "/setting");
+          let formData = new FormData();
+          formData.append('resource', this.form.target)
+          formData.append('data', this.form.setting)
+          request_json.POST_File(this.check_post, formData, "/setting");
           this.form.target = "";
           this.form.setting = "";
         } else {

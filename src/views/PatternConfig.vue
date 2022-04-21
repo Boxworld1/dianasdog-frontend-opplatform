@@ -60,13 +60,12 @@ export default {
       //todo:与后端通信，提交文件
       this.$refs[form].validate((valid) => {
         if (valid) {
-          var pattern_json = {
-            "resource": this.form.target,
-            "data": JSON.parse(this.form.pattern)
-          }
+          let formData = new FormData();
+          formData.append('resource', this.form.target)
+          formData.append('data', this.form.pattern)
           console.log("hello")
-          request_json.POST(this.check_post, pattern_json, '/pattern')
-          console.log("hellll")
+          request_json.POST_File(this.check_post, formData, '/pattern')
+          console.log("hellll"                         )
           this.form.target = "";
           this.form.pattern = "";
         } else {

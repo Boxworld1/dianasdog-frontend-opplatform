@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 axios.defaults.withCredentials = true
+
 //todo:后端接口 与 数据格式 对接
 const request_json = {
   GET: (get_function, url) => {
