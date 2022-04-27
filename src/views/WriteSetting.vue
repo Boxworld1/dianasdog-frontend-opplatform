@@ -11,7 +11,7 @@
         <el-input type="textarea" v-model="form.setting"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-upload ref='upload' action='#' class="upload-demo" :http-request="uploadFile">
+        <el-upload class="upload-demo" action='#' :file-list="fileList" :http-request="uploadFile">
           <el-button size="small" type="primary" :disabled="uploadDisable"
             >点击上传</el-button
           >
@@ -36,19 +36,18 @@ export default {
       rules: {
         target: [{ required: true, message: "目标不能为空", trigger: "blur" }],
       },
+      fileList: []
     };
   },
   methods: {
     upload_succ(bool) {
       return bool;
     },
-    async uploadFile(param) {
-      console.log('upload')
-      file = param.file
-      let formData = new FormData();
-      formData.append("file", file.raw);
-      formData.append("resource", this.form.target);
+    uploadFile(item) {
       console.log('fff')
+      let formData = new FormData();
+      formData.append("file", item.file);
+      formData.append("resource", this.form.target);
       request_json.POST_File(this.upload_succ, formData, "/setting");
     },
 

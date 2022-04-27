@@ -13,6 +13,7 @@
       <el-form-item>
         <el-upload
         class="upload-demo"
+        :file-list="fileList"
         :http-request="uploadFile">
         <el-button size="small" type="primary" :disabled="uploadDisable">点击上传</el-button>
         </el-upload>
@@ -37,15 +38,16 @@ export default {
         target: [{ required: true, message: "目标不能为空", trigger: "blur" }],
       },
       uploadDisable:true,
+      fileList:[]
     };
   },
   methods: {
     upload_succ(bool) {
       return bool;
     },
-    uploadFile(file) {
+    uploadFile(item) {
       let formData = new FormData();
-      formData.append('file', file.raw);
+      formData.append('file', item.file);
       formData.append('resource', this.form.pattern);
       request_json.POST_File(this.upload_succ, formData, '/pattern');
     },

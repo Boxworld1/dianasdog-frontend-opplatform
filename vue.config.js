@@ -5,19 +5,23 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/setting': {
-        target: 'http://localhost:80', // todo:修改为你的Django服务器地址
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
         changeOrigin: true,
       },
       '/pattern': {
-        target: 'http://localhost:80', // todo:修改为你的Django服务器地址
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
         changeOrigin: true,
       },
       '/data': {
-        target: 'http://localhost:80', // todo:修改为你的Django服务器地址
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
         changeOrigin: true,
       },      
       '/login': {
-        target: 'http://localhost:80', // todo:修改为你的Django服务器地址
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
         changeOrigin: true,
       }
     }
