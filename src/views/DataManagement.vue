@@ -101,7 +101,7 @@ export default {
     get_options(val) {
       this.options = val; //要求后端存储为一个json数组,形式为[{"value": },{},{}]
     },
-    fileChange(file, fileList) {
+    fileChange(file) {
       this.fileList.push(file);
     },
     post_success(bool) {
@@ -119,12 +119,6 @@ export default {
         formData.append("resource", "poem");
         formData.append("file", this.fileList[i].name);
 
-        var file_json = {
-          type: "insert",
-          resource: this.insertResource,
-          file: this.fileList[i].name,
-          data: this.fileList[i],
-        };
         request_json.POST_File(this.post_success, formData, "/data");
       }
     },
