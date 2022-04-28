@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import bcrypt from 'bcryptjs'
+import request_json from '../utils/communication'
 export default {
   name: "LoginPage",
   data() {
@@ -38,26 +40,43 @@ export default {
         name: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
-          { min: 6, max: 25, message: "密码字符数在6-25间", trigger: "blur" },
+          { min: 3, max: 25, message: "密码字符数在3-25间", trigger: "blur" },
         ],
       },
+      passwdValid: false,
     };
   },
   methods: {
-    check() {
-      var json = this.$store.getters.getAdmin;
-      for (var p in json){
-        if (p  === this.form.name) {
-          if (json[p] === this.form.password)
-            return true;
-          else return false;
-        }
+    back_check(val) {
+      if (val === false){
+        this.passwdValid = false;
+      } else {
+        bcrypt.compare(this.form.password, val, (err, res) => {
+            this.passwdValid = res;
+        });
       }
-      return false;
+    },
+    // check() {
+    //   var json = this.$store.getters.getAdmin;
+    //   for (var p in json){
+    //     if (p  === this.form.name) {
+    //       if (json[p] === this.form.password)
+    //         return true;
+    //       else return false;
+    //     }
+    //   }
+    //   return false;
+    // },
+    async check_pass() {
+      var user = {
+        "username": this.form.name,
+      }
+      request_json.POST_User(this.back_check, user);
     },
     onSubmit(form) {
+      this.check_pass();
       this.$refs[form].validate((valid) => {
-        if (valid && this.check()) {
+        if (valid && this.passwdValid) {
           sessionStorage.setItem("isLogin", "true");
           this.$store.dispatch("asyncUpdateUser", { name: this.form.name });
           this.$router.push({ name: "home" });
