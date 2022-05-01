@@ -15,7 +15,7 @@ export default {
   name: "resourceSelect",
   props: {
     options:{
-      type: Object,
+      type: Array,
       default: () => []
     },
     value: {
