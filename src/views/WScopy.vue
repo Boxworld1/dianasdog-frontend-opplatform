@@ -32,13 +32,10 @@
 
         <el-table-column label="操作" align="right">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-              >Edit</el-button
-            >
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
+              @click="handleDelete(scope.$index)"
               >Delete</el-button
             >
           </template>
@@ -47,10 +44,13 @@
     </div>
     <div class="foot">
       <template>
-        <el-button type="primary" @click="dialogLabelVisible = true">增加标签</el-button>
+        <el-button type="primary" @click="dialogLabelVisible = true"
+          >增加标签</el-button
+        >
         <el-button type="primary" @click="dialogResourceVisible = true"
           >增加特性卡片</el-button
         >
+        <el-button type="danger" @click="submitChange">提交更改</el-button>
       </template>
     </div>
     <el-dialog title="增加标签" :visible.sync="dialogLabelVisible">
@@ -64,7 +64,7 @@
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
-                <el-form-item label="是否插入redis">
+        <el-form-item label="是否插入redis">
           <el-radio-group v-model="formLabel.redis">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
@@ -76,17 +76,19 @@
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogLabelVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitDialogLabel"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitDialogLabel">确 定</el-button>
       </div>
     </el-dialog>
     <el-dialog title="增加特性卡片" :visible.sync="dialogResourceVisible">
-
+      特性卡片名字：
+      <el-input v-model="newResourceName" autocomplete="off" />
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogResourceVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitResourceLabel">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -113,23 +115,21 @@ export default {
         redis: true,
         sql: true,
       },
+      newResourceName: "",
     };
   },
   methods: {
     set_labels(val) {}, //todo: convert val to list items
-    handleEdit(index, row) {
-      console.log(index, row);
-    },
-    handleDelete(index, row) {
-      console.log(index, row);
+    handleDelete(index) {
+      this.labels.splice(index, 1);
     },
     resetFormLabel() {
-      this.formLabel={
+      this.formLabel = {
         name: "",
         es: true,
         redis: true,
         sql: true,
-      }
+      };
     },
     submitDialogLabel() {
       this.dialogLabelVisible = false;
@@ -137,12 +137,22 @@ export default {
       this.resetFormLabel();
     },
     submitDialogResource() {
-      this.dialogResourceVisible = true;
+      this.dialogResourceVisible = false;
+      this.options.push(this.newResourceName);
+      this.value_option = this.newResourceName;
+      this.labels = [];
+      this.newResourceName = "";
     },
+    submitChange() {
+      //todo: send this resource and labels to backend
+    }
   },
   watch: {
     value_option: {
       handler(value) {
+        if (value == this.newResourceName) {
+          return;
+        }
         //todo: set mdg and url
         // request_json.POST(this.set_labels, msg, url);
       },

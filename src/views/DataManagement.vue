@@ -3,10 +3,7 @@
     <el-row class="el-row-style">
       <el-col :span="6">增加数据</el-col>
       <el-col :span="8">
-        <el-select v-model="insertResource" placeholder="特性卡名称">
-          <el-option label="目标一" value="car"></el-option>
-          <el-option label="目标二" value="poem"></el-option>
-        </el-select>
+    <resource-select :options="options" :value="insertResource" />
       </el-col>
       <el-col :span="10">
         <el-upload
@@ -36,10 +33,7 @@
     <el-row class="el-row-style">
       <el-col :span="6">删除数据</el-col>
       <el-col :span="6">
-        <el-select v-model="deleteResource" placeholder="特性卡名称">
-          <el-option label="目标一" value="car"></el-option>
-          <el-option label="目标二" value="poem"></el-option>
-        </el-select>
+        <resource-select :options="options" :value="deleteResource" />
       </el-col>
       <el-col :span="12">
         <el-select
@@ -48,7 +42,7 @@
           placeholder="请选择想要删除的文件"
         >
           <el-option
-            v-for="item in options"
+            v-for="item in allFile"
             :key="item.value"
             :label="item.value"
             :value="item.value"
@@ -82,15 +76,18 @@
 
 <script>
 import request_json from "../utils/communication";
+import resourceSelect from '@/components/resourceSelect.vue';
 export default {
+  components: { resourceSelect },
   name: "DataManagement",
   data() {
     return {
+      options: [],
       insertResource: "",
       fileList: [],
+      allFile: [],
       deleteFile: "",
       deleteButtonDisable: true,
-      options: [],
       deleteResource: "",
     };
   },
