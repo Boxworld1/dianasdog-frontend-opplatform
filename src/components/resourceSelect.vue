@@ -12,11 +12,15 @@
 <script>
 import request_json from '../utils/communication'
 export default {
-  name: resourceSelect,
-  data() {
-    return {
-      options: [],
-      value: ''
+  name: "resourceSelect",
+  props: {
+    options:{
+      type: Object,
+      default: () => []
+    },
+    value: {
+      type: String,
+      default: () => ''
     }
   },
   methods: {
@@ -24,9 +28,9 @@ export default {
 
     },
     get_options($event) {
-      if ($event = true) {
-        url = 
-        request_json.GET(set_options, url);
+      if ($event == true) {
+        // url = 
+        // request_json.GET(set_options, url);
       }
     }
   },
