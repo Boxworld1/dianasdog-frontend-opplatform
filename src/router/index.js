@@ -25,8 +25,8 @@ const routes = [
       {
         //写入行为描述
         path: '/writesetting',
-        name: 'WriteSetting',
-        component: WriteSetting
+        name: 'WSCopy',
+        component: WriteSettingCopy
       },
       {
         //数据管理
