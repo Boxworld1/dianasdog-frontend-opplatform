@@ -45,6 +45,14 @@ export default {
     }
   },
   methods: {
+
   },
+  watch: {
+    value: {
+      handler(value){
+        this.$emit('changeValue', value)
+      }
+    }
+  }
 };
 </script>

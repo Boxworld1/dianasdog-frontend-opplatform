@@ -1,8 +1,12 @@
 <template>
   <div>
-    <resource-select :options="options" :value="value_option" :get_options="get_options"/>
+    <resource-select
+      :options="options"
+      @changeValue="changeValue"
+      :get_options="get_options"
+    />
     <div>
-      <el-table :data="labels" style="width: 100%" max-height="250">
+      <el-table :data="labels" style="width: 100%" height="600">
         <el-table-column fixed prop="name" label="标签名字" width="200" />
         <el-table-column prop="es" label="是否插入es">
           <template slot-scope="scope">
@@ -24,6 +28,14 @@
         <el-table-column prop="sql" label="是否插入sql">
           <template slot-scope="scope">
             <el-radio-group v-model="scope.row.sql">
+              <el-radio-button :label="true">是</el-radio-button>
+              <el-radio-button :label="false">否</el-radio-button>
+            </el-radio-group>
+          </template>
+        </el-table-column>
+        <el-table-column prop="pic" label="是否是图片">
+          <template slot-scope="scope">
+            <el-radio-group v-model="scope.row.pic">
               <el-radio-button :label="true">是</el-radio-button>
               <el-radio-button :label="false">否</el-radio-button>
             </el-radio-group>
@@ -76,6 +88,12 @@
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="是否是图片">
+          <el-radio-group v-model="formLabel.pic">
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogLabelVisible = false">取 消</el-button>
@@ -107,7 +125,7 @@ export default {
     return {
       options: [],
       value_option: "",
-      labels: [{ name: "car", es: true, redis: true, sql: false }],
+      labels: [{ name: "car", es: true, redis: true, sql: false, pic: true }],
       dialogLabelVisible: false,
       dialogResourceVisible: false,
       //formLabel用于新增label
@@ -116,6 +134,7 @@ export default {
         es: true,
         redis: true,
         sql: true,
+        pic: true,
       },
       newResourceName: "",
     };
@@ -131,11 +150,22 @@ export default {
     set_options(val) {
       this.options = val.data;
     },
-
+    changeValue(value) {
+      this.value_option = value;
+    },
     set_labels(val) {
-      var items = JSON.parse(val)["data"]["write_setting"];
-      console.log(items);
-    }, //todo: convert val to list items
+      this.labels = [];
+      var items = val.data.write_setting;
+      for (var i in items) {
+        this.labels.push({
+          name: i,
+          es: items[i].dump_invert_idx,
+          redis: items[i].dump_digest,
+          sql: items[i].dump_dict,
+          pic: items[i].is_picture,
+        });
+      }
+    }, //do: convert val to list items
     handleDelete(index) {
       this.labels.splice(index, 1);
     },
@@ -145,6 +175,7 @@ export default {
         es: true,
         redis: true,
         sql: true,
+        pic: true,
       };
     },
     submitDialogLabel() {
@@ -161,17 +192,43 @@ export default {
     },
     submitChange() {
       //todo: send this resource and labels to backend
+      //构造json
+      var dict = {};
+      for (var i in this.labels) {
+        dict[this.labels[i].name] = {
+          dump_dict: this.labels[i].sql,
+          dump_digest: this.labels[i].redis,
+          dump_invert_idx: this.labels[i].es,
+          is_picture: this.labels[i].pic,
+        };
+      }
+      var setting_file = {
+          resource: this.value_option,
+          write_setting: dict,
+      };
+      var formData = new FormData();
+      formData.append("resource", this.value_option);
+      formData.append("data", JSON.stringify(setting_file));
+      request_json.POST_File(this.submit_check, formData, "/setting");
+    },
+    submit_check(bool) {
+      if (bool) {
+        alert("更改成功！");
+      } else {
+        alert("更改失败！");
+      }
     },
   },
   watch: {
     value_option: {
       handler(value) {
+        console.log(value);
         if (value == this.newResourceName) {
           return;
         }
         //do: set msg and url
-        url = "/setting";
-        params = {
+        var url = "/setting";
+        var params = {
           resource: value,
         };
         request_json.GET_WITH_PARAMS(this.set_labels, url, params);

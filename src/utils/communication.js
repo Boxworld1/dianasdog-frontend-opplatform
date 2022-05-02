@@ -14,7 +14,7 @@ const request_json = {
       })
   },
   GET_WITH_PARAMS: (get_function, url, params) => {
-    axios.get(url, params)
+    axios.get(url, {params: params})
       .then((res) => {
         get_function(res.data)
       })
