@@ -32,10 +32,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    value: {
-      type: String,
-      default: () => "",
-    },
     get_options:{
       type: Function,
       default: ()=>{
@@ -44,8 +40,10 @@ export default {
       }
     }
   },
-  methods: {
-
+  data() {
+    return {
+      value: ''
+    }
   },
   watch: {
     value: {
