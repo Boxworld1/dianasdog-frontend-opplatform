@@ -14,11 +14,10 @@
           class="upload-demo"
           ref="upload"
           action="#"
-          :on-change="fileChange"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
           :file-list="fileList"
-          :before-upload="beforeUpload"
+          :on-change="fileIncrease"
+          :on-remove="fileRemove"
+          :on-preview="filePreview"
           :auto-upload="false"
         >
           <el-button slot="trigger" size="small" type="primary"
@@ -116,9 +115,6 @@ export default {
     get_deletableFile(val) {
       this.deletableFile = val.data;
     },
-    fileChange(file) {
-      this.fileList.push(file);
-    },
     post_success(bool) {
       if (bool) {
         alert("上传成功");
@@ -126,22 +122,30 @@ export default {
         alert("上传失败");
       }
     },
+    fileIncrease(file){
+      if (file.status !== 'ready') return;
+      this.fileList.push(file);
+    },
+    fileRemove(file){
+      var index = this.fileList.findIndex(item => {
+	      return item === file
+        });
+      this.fileList.splice(index, 1);
+    },
+    filePreview(file) {
+      //todo: show file context
+    },
     submitUpload() {
       for (var i = 0; i < this.fileList.length; i++) {
         var formData = new FormData();
-        formData.append("data", this.fileList[i].raw);
+        formData.append("file", this.fileList[i].raw);
         formData.append("type", "insert");
-        formData.append("resource", "poem");
-        formData.append("file", this.fileList[i].name);
+        formData.append("resource", this.insertResource);
+        formData.append("filename", this.fileList[i].name);
 
         request_json.POST_File(this.post_success, formData, "/data");
       }
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
+      this.fileList = [];
     },
     fdelete() {
       var formData = new FormData();
