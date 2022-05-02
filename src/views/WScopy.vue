@@ -1,6 +1,6 @@
 <template>
   <div>
-    <resource-select :options="options" :value="value_option" />
+    <resource-select :options="options" :value="value_option" :get_options="get_options"/>
     <div>
       <el-table :data="labels" style="width: 100%" max-height="250">
         <el-table-column fixed prop="name" label="标签名字" width="200" />
@@ -87,7 +87,9 @@
       <el-input v-model="newResourceName" autocomplete="off" />
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogResourceVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitResourceLabel">确 定</el-button>
+        <el-button type="primary" @click="submitDialogResource"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -119,7 +121,21 @@ export default {
     };
   },
   methods: {
-    set_labels(val) {}, //todo: convert val to list items
+    get_options(bool) {
+      if (bool) {
+        var url = "/category";
+        request_json.GET(this.set_options, url);
+        console.log("aaa");
+      }
+    },
+    set_options(val) {
+      this.options = val.data;
+    },
+
+    set_labels(val) {
+      var items = JSON.parse(val)["data"]["write_setting"];
+      console.log(items);
+    }, //todo: convert val to list items
     handleDelete(index) {
       this.labels.splice(index, 1);
     },
@@ -145,7 +161,7 @@ export default {
     },
     submitChange() {
       //todo: send this resource and labels to backend
-    }
+    },
   },
   watch: {
     value_option: {
@@ -153,8 +169,12 @@ export default {
         if (value == this.newResourceName) {
           return;
         }
-        //todo: set mdg and url
-        // request_json.POST(this.set_labels, msg, url);
+        //do: set msg and url
+        url = "/setting";
+        params = {
+          resource: value,
+        };
+        request_json.GET_WITH_PARAMS(this.set_labels, url, params);
       },
     },
   },

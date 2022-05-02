@@ -13,6 +13,15 @@ const request_json = {
         console.log(error)
       })
   },
+  GET_WITH_PARAMS: (get_function, url, params) => {
+    axios.get(url, params)
+      .then((res) => {
+        get_function(res.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  },
   POST: (post_function, new_message, url) => {
     axios.post(url, JSON.stringify(new_message))
       .then((res) => {

@@ -9,13 +9,13 @@
         v-model="value"
         filterable
         placeholder="请选择"
-        :visible-change="get_options($event)"
+        @visible-change="get_options"
       >
         <el-option
           v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          :key="item"
+          :label="item"
+          :value="item"
         >
         </el-option>
       </el-select>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import request_json from "../utils/communication";
 export default {
   name: "resourceSelect",
   props: {
@@ -37,15 +36,15 @@ export default {
       type: String,
       default: () => "",
     },
+    get_options:{
+      type: Function,
+      default: ()=>{
+        return ()=>{
+        }
+      }
+    }
   },
   methods: {
-    set_options(val) {},
-    get_options($event) {
-      if ($event == true) {
-        // url =
-        // request_json.GET(set_options, url);
-      }
-    },
   },
 };
 </script>
