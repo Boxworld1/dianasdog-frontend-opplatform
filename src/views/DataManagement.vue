@@ -3,7 +3,11 @@
     <el-row class="el-row-style">
       <el-col :span="6">增加数据</el-col>
       <el-col :span="8">
-    <resource-select :options="options" :value="insertResource" />
+    <resource-select
+      :options="options"
+      @changeValue="changeValueInsert"
+      :get_options="get_options"
+    />
       </el-col>
       <el-col :span="10">
         <el-upload
@@ -33,7 +37,11 @@
     <el-row class="el-row-style">
       <el-col :span="6">删除数据</el-col>
       <el-col :span="6">
-        <resource-select :options="options" :value="deleteResource" />
+    <resource-select
+      :options="options"
+      @changeValue="changeValueDelete"
+      :get_options="get_options"
+    />
       </el-col>
       <el-col :span="12">
         <el-select
@@ -42,10 +50,10 @@
           placeholder="请选择想要删除的文件"
         >
           <el-option
-            v-for="item in allFile"
-            :key="item.value"
-            :label="item.value"
-            :value="item.value"
+            v-for="item in deletableFile"
+            :key="item"
+            :label="item"
+            :value="item"
           >
           </el-option>
         </el-select>
@@ -62,10 +70,7 @@
     <el-row class="el-row-style">
       <el-col :span="6">修改数据</el-col>
       <el-col :span="6">
-        <el-select v-model="deleteResource" placeholder="特性卡名称">
-          <el-option label="目标一" value="car"></el-option>
-          <el-option label="目标二" value="poem"></el-option>
-        </el-select>
+        <resource-select/>
       </el-col>
       <el-col :span="12">
       <!-- 提供一个搜索item的key -->
@@ -85,18 +90,31 @@ export default {
       options: [],
       insertResource: "",
       fileList: [],
-      allFile: [],
+      deletableFile: [],
       deleteFile: "",
       deleteButtonDisable: true,
       deleteResource: "",
     };
   },
-  mounted() {
-    request_json.GET(this.get_options, "/options");
-  },
   methods: {
-    get_options(val) {
-      this.options = val; //要求后端存储为一个json数组,形式为[{"value": },{},{}]
+    get_options(bool) {
+      if (bool) {
+        var url = "/category";
+        request_json.GET(this.set_options, url);
+      }
+    },
+    set_options(val) {
+      this.options = val.data;
+    },
+    changeValueInsert(value) {
+      this.insertResource = value;
+    },
+        changeValueDelete(value) {
+      this.deleteResource = value;
+    },
+
+    get_deletableFile(val) {
+      this.deletableFile = val.data;
     },
     fileChange(file) {
       this.fileList.push(file);
@@ -126,12 +144,12 @@ export default {
       console.log(file);
     },
     fdelete() {
-      var delete_json = {
-        type: "delete",
-        resource: this.deleteResource,
-        file: this.deleteFile,
-      };
-      request_json.POST(this.post_success, delete_json, "/data");
+      var formData = new FormData();
+      formData.append("resource", this.deleteResource);
+            formData.append("type", "delete");
+      formData.append("filename", this.deleteFile);
+
+      request_json.POST_File(this.post_success, formData, "/data");
       this.deleteFile = "";
       this.deleteResource = "";
     },
@@ -146,6 +164,17 @@ export default {
         }
       },
     },
+    deleteResource: {
+      handler(newDeleteResource) {
+        if (newDeleteResource == ""){
+          return;
+        }
+        var params = {
+          resource: newDeleteResource
+        }
+        request_json.GET_WITH_PARAMS(this.get_deletableFile, '/dataname', params)
+      }
+    }
   },
 };
 </script>
