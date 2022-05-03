@@ -75,10 +75,24 @@
           :get_options="get_options"
         />
       </el-col>
-      <el-col :span="12">
+      <el-col :span="10">
         <!-- 提供一个搜索item的key -->
+        <el-input v-model="itemKey" placeholder="请输入item的key" style="margin-left:30px" >
+        <el-button icon="el-icon-search" slot="append" @click="searchItem" :disabled="searchItemDisable"/>
+        </el-input>
       </el-col>
     </el-row>
+    <el-dialog :title="itemKey" :visible.sync="itemDialogVisible">
+      <!-- xuanran -->
+      <p>{{ itemBody }}</p>
+            <div slot="footer" class="dialog-footer">
+        <el-button @click="itemDialogVisible = false;itemBody = ''">取 消</el-button>
+        <el-button type="primary" @click="submitDialogItem"
+          >确 定</el-button
+        >
+      </div>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -98,6 +112,10 @@ export default {
       deleteButtonDisable: true,
       deleteResource: "",
       itemResource: "",
+      itemKey: '',
+      searchItemDisable: true,
+      itemDialogVisible: false,
+      itemBody: ''
     };
   },
   methods: {
@@ -164,6 +182,17 @@ export default {
       this.deleteFile = "";
       this.deleteResource = "";
     },
+    getItemBody(val) {
+      this.itemBody = val.data;
+    },
+    searchItem() {
+      this.itemDialogVisible = true;
+      var params = {
+        resource: this.itemResource,
+        key: this.itemKey
+      }
+      request_json.GET_WITH_PARAMS(this.getItemBody, '/item', params);
+    }
   },
   watch: {
     deleteFile: {
@@ -190,6 +219,19 @@ export default {
         );
       },
     },
+    itemKey: {
+      handler(newItemKey) {
+        if (newItemKey == "") {
+          this.searchItemDisable = true;
+          return;
+        }
+        if (this.itemResource == "") {
+          this.searchItemDisable = true;
+          return;
+        }
+        this.searchItemDisable = false;
+      }
+    }
   },
 };
 </script>
