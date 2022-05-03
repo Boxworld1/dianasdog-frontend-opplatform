@@ -1,96 +1,227 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item label="配置目标" prop="target">
-        <el-select v-model="form.target" placeholder="请选择配置目标">
-          <el-option label="目标一" value="car"></el-option>
-          <el-option label="目标二" value="poem"></el-option>
+    <el-form ref="form" label-width="80px">
+      <el-form-item label="配置目标">
+        <el-select
+          v-model="target"
+          placeholder="请选择配置目标"
+          style="margin-right: 45px"
+        >
+          <el-option
+            v-for="(resource, index) in resourceList"
+            :key="index"
+            :label="resource"
+            :value="resource"
+          >
+          </el-option>
         </el-select>
+
+        <el-button
+          style="display: inline-block; margin-right: 15px"
+          v-on:click="postDialog.dialogVisible = true"
+        >
+          <i class="el-icon-upload">upload</i>
+        </el-button>
+        <el-button
+          style="display: inline-block; margin-right: 15px"
+          v-on:click="deleteDialog.dialogVisible = true"
+        >
+          <i class="el-icon-delete">delete</i>
+        </el-button>
       </el-form-item>
-      <el-form-item label="模版文件">
-        <el-input type="textarea" v-model="form.pattern"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-upload
-        class="upload-demo"
-        :file-list="fileList"
-        :http-request="uploadFile">
-        <el-button size="small" type="primary" :disabled="uploadDisable">点击上传</el-button>
-        </el-upload>
-        <el-button type="primary" @click="onSubmit('form')">提交</el-button>
-        <el-button>取消</el-button>
+      <el-form-item label="模板列表">
+        <div id="pattern-list">
+          <PatternBlock
+            v-for="(pattern, index) in patternList"
+            :rawpattern="pattern"
+            :key="index"
+            v-bind:edit="edit"
+            v-bind:deletepattern="deletepattern"
+          />
+        </div>
       </el-form-item>
     </el-form>
+    <PostDialog
+      :dialogVisible="postDialog.dialogVisible"
+      :target="target"
+      v-bind:cancelPost="cancelPost"
+      v-bind:postpattern="postpattern"
+    />
+    <DeleteDialog
+      :dialogVisible="deleteDialog.dialogVisible"
+      :target="target"
+      :patternList="patternList"
+      v-bind:cancelDelete="cancelDelete"
+      v-bind:deletepattern="deletepattern"
+    />
+    <EditDialog
+      :dialogVisible="editDialog.dialogVisible"
+      :target="target"
+      :rawpattern="curpattern"
+      v-bind:cancelEdit="cancelEdit"
+      v-bind:editpattern="editpattern"
+    />
   </div>
 </template>
 
 <script>
-import request_json from '../utils/communication'
+import PatternBlock from "../components/PatternConfig/PatternBlock";
+import PostDialog from "../components/PatternConfig/PostDialog";
+import DeleteDialog from "../components/PatternConfig/DeleteDialog";
+import EditDialog from "../components/PatternConfig/EditDialog";
+import request_json from "../utils/communication";
+
 export default {
   name: "PatternConfig",
+  components: {
+    PatternBlock,
+    PostDialog,
+    DeleteDialog,
+    EditDialog,
+  },
   data() {
     return {
-      form: {
-        target: "",
-        pattern: "",
+      postDialog: {
+        dialogVisible: false,
       },
-      rules: {
-        target: [{ required: true, message: "目标不能为空", trigger: "blur" }],
+      deleteDialog: {
+        dialogVisible: false,
       },
-      uploadDisable:true,
-      fileList:[]
+      editDialog: {
+        dialogVisible: false,
+      },
+      target: "",
+      curpattern: "",
+      resourceList: [],
+      patternList: [],
     };
   },
   methods: {
-    upload_succ(bool) {
-      return bool;
-    },
-    uploadFile(item) {
-      let formData = new FormData();
-      formData.append('file', item.file);
-      formData.append('resource', this.form.pattern);
-      request_json.POST_File(this.upload_succ, formData, '/pattern');
-    },
-    check_post(bool) {
-            if (bool) {
-        alert("查询成功！");
+    post_success(bool) {
+      if (bool) {
+        this.getpattern();
+        this.$message({
+          message: "上传成功",
+          type: "success",
+        });
       } else {
-        alert("查询失败！");
+        this.$message({
+          message: "上传失败",
+          type: "error",
+        });
+      }
+      this.postDialog.dialogVisible = false;
+    },
+    delete_success(bool) {
+      if (bool) {
+        this.getpattern();
+        this.$message({
+          message: "删除成功",
+          type: "success",
+        });
+      } else {
+        this.$message({
+          message: "删除失败",
+          type: "error",
+        });
+      }
+      this.deleteDialog.dialogVisible = false;
+    },
+    edit_success(bool) {
+      if (bool) {
+        this.getpattern();
+        this.$message({
+          message: "编辑成功",
+          type: "success",
+        });
+      } else {
+        this.$message({
+          message: "编辑失败",
+          type: "error",
+        });
+      }
+      this.editDialog.dialogVisible = false;
+    },
+    check(bool) {
+      if (!bool) {
+        this.$message({
+          message: "编辑失败",
+          type: "error",
+        });
       }
     },
-    onSubmit(form) {
-      //todo:与后端通信，提交文件
-      this.$refs[form].validate((valid) => {
-        if (valid) {
-          let formData = new FormData();
-          formData.append('resource', this.form.target)
-          formData.append('data', this.form.pattern)
-          console.log("hello")
-          request_json.POST_File(this.check_post, formData, '/pattern')
-          console.log("hellll"                         )
-          this.form.target = "";
-          this.form.pattern = "";
-        } else {
-          this.$message({
-            message: "请输入配置目标",
-            type: "warning",
-          });
-          return false;
-        }
-      });
+    read_pattern(param) {
+      this.patternList = param.data;
+    },
+    read_resource(param) {
+      this.resourceList = param.data;
+    },
+    edit(rawpattern) {
+      this.curpattern = rawpattern;
+      this.editDialog.dialogVisible = true;
+    },
+    getpattern() {
+      if (this.target === "") {
+        this.$message({
+          message: "请选择配置目标",
+          type: "warning",
+        });
+      } else {
+        var msg = {
+          resource: this.target,
+          type: "pattern",
+        };
+        request_json.GET_WITH_PARAMS(this.read_pattern, "/pattern", msg);
+      }
+    },
+    postpattern(patterns) {
+      var msg = {
+        type: "pattern",
+        resource: this.target,
+        data: patterns,
+        operation: "insert",
+      };
+      request_json.POST(this.post_success, msg, "/pattern");
+    },
+    deletepattern(patterns) {
+      var msg = {
+        type: "pattern",
+        resource: this.target,
+        data: patterns,
+        operation: "delete",
+      };
+      request_json.POST(this.delete_success, msg, "/pattern");
+    },
+    editpattern(oldpattern, newpattern) {
+      var msg = {
+        type: "pattern",
+        resource: this.target,
+        data: [oldpattern],
+        operation: "delete",
+      };
+      request_json.POST(this.check, msg, "/pattern");
+      msg.data = [newpattern];
+      msg.operation = "insert";
+      request_json.POST(this.edit_success, msg, "/pattern");
+    },
+    cancelPost() {
+      this.postDialog.dialogVisible = false;
+    },
+    cancelDelete() {
+      this.deleteDialog.dialogVisible = false;
+    },
+    cancelEdit() {
+      this.editDialog.dialogVisible = false;
     },
   },
-  watch:{
-    "form.target": {
-      handler(target) {
-        if (target === "") {
-          this.uploadDisable = true;
-        } else {
-          this.uploadDisable = false;
-        }
-      }
-    }
-  }
+  watch: {
+    target() {
+      this.getpattern();
+    },
+  },
+  created() {
+    request_json.GET(this.read_resource, "/category");
+  },
 };
 </script>
 
