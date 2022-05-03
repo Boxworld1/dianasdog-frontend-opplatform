@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import bcrypt from 'bcryptjs'
-import request_json from '../utils/communication'
+import bcrypt from "bcryptjs";
+import request_json from "../utils/communication";
 export default {
   name: "LoginPage",
   data() {
@@ -48,11 +48,11 @@ export default {
   },
   methods: {
     back_check(val) {
-      if (val === false){
+      if (val === false) {
         this.passwdValid = false;
       } else {
         bcrypt.compare(this.form.password, val, (err, res) => {
-            this.passwdValid = res;
+          this.passwdValid = res;
         });
       }
     },
@@ -69,8 +69,8 @@ export default {
     // },
     async check_pass() {
       var user = {
-        "username": this.form.name,
-      }
+        username: this.form.name,
+      };
       request_json.POST_User(this.back_check, user);
     },
     onSubmit(form) {

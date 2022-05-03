@@ -4,8 +4,8 @@ axios.defaults.withCredentials = true
 
 //todo:后端接口 与 数据格式 对接
 const request_json = {
-  GET: (get_function, url) => {
-    axios.get(url)
+  GET: async (get_function, url) => {
+    await axios.get(url)
       .then((res) => {
         get_function(res.data)
       })
@@ -13,8 +13,8 @@ const request_json = {
         console.log(error)
       })
   },
-  GET_WITH_PARAMS: (get_function, url, params) => {
-    axios.get(url, {params: params})
+  GET_WITH_PARAMS: (get_function, message, url) => {
+    axios.get(url, { params: message })
       .then((res) => {
         get_function(res.data)
       })
@@ -28,10 +28,13 @@ const request_json = {
         if (res.status === 201 || res.status === 200) {
           post_function(true)
         }
+        else {
+          post_function(false)
+        }
       })
       .catch(function (error) {
-        post_function(false)
         console.log(error)
+        post_function(false)
       })
   },
   POST_User: (post_function, new_message) => {
@@ -41,16 +44,19 @@ const request_json = {
           let pass = res.data.password
           post_function(pass)
         }
+        else {
+          post_function(false)
+        }
       })
       .catch(function (error) {
-        post_function(false)
         console.log(error)
       })
   },
   POST_File: (post_function, new_message, url) => {
     let config = {
       headers: {
-        "Content-Type": 'multipart/form-data' }
+        "Content-Type": 'multipart/form-data'
+      }
     }
     console.log(new_message)
     axios.post(url, new_message, config)
@@ -58,9 +64,11 @@ const request_json = {
         if (res.status === 201 || res.status === 200) {
           post_function(true)
         }
+        else {
+          post_function(false)
+        }
       })
       .catch(function (error) {
-        post_function(false)
         console.log(error)
       })
   }
