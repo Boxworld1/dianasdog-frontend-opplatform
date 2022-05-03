@@ -23,7 +23,18 @@ module.exports = defineConfig({
         target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
         secure: false,
         changeOrigin: true,
-      }
+      },
+      '/category': {
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
+        changeOrigin: true,
+      },
+      '/item': {
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
+        changeOrigin: true,
+      },
+
     }
   },
 })

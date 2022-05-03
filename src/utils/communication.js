@@ -13,17 +13,24 @@ const request_json = {
         console.log(error)
       })
   },
+  GET_WITH_PARAMS: (get_function, url, params) => {
+    axios.get(url, {params: params})
+      .then((res) => {
+        get_function(res.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  },
   POST: (post_function, new_message, url) => {
     axios.post(url, JSON.stringify(new_message))
       .then((res) => {
         if (res.status === 201 || res.status === 200) {
           post_function(true)
         }
-        else {
-          post_function(false)
-        }
       })
       .catch(function (error) {
+        post_function(false)
         console.log(error)
       })
   },
@@ -34,11 +41,9 @@ const request_json = {
           let pass = res.data.password
           post_function(pass)
         }
-        else {
-          post_function(false)
-        }
       })
       .catch(function (error) {
+        post_function(false)
         console.log(error)
       })
   },
@@ -53,11 +58,9 @@ const request_json = {
         if (res.status === 201 || res.status === 200) {
           post_function(true)
         }
-        else {
-          post_function(false)
-        }
       })
       .catch(function (error) {
+        post_function(false)
         console.log(error)
       })
   }
