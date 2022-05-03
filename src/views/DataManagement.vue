@@ -3,11 +3,11 @@
     <el-row class="el-row-style">
       <el-col :span="6">增加数据</el-col>
       <el-col :span="8">
-    <resource-select
-      :options="options"
-      @changeValue="changeValueInsert"
-      :get_options="get_options"
-    />
+        <resource-select
+          :options="options"
+          @changeValue="changeValueInsert"
+          :get_options="get_options"
+        />
       </el-col>
       <el-col :span="10">
         <el-upload
@@ -36,11 +36,11 @@
     <el-row class="el-row-style">
       <el-col :span="6">删除数据</el-col>
       <el-col :span="6">
-    <resource-select
-      :options="options"
-      @changeValue="changeValueDelete"
-      :get_options="get_options"
-    />
+        <resource-select
+          :options="options"
+          @changeValue="changeValueDelete"
+          :get_options="get_options"
+        />
       </el-col>
       <el-col :span="12">
         <el-select
@@ -69,10 +69,14 @@
     <el-row class="el-row-style">
       <el-col :span="6">修改数据</el-col>
       <el-col :span="6">
-        <resource-select/>
+        <resource-select
+          :options="options"
+          @changeValue="changeValueItem"
+          :get_options="get_options"
+        />
       </el-col>
       <el-col :span="12">
-      <!-- 提供一个搜索item的key -->
+        <!-- 提供一个搜索item的key -->
       </el-col>
     </el-row>
   </div>
@@ -80,7 +84,7 @@
 
 <script>
 import request_json from "../utils/communication";
-import resourceSelect from '@/components/resourceSelect.vue';
+import resourceSelect from "@/components/resourceSelect.vue";
 export default {
   components: { resourceSelect },
   name: "DataManagement",
@@ -93,6 +97,7 @@ export default {
       deleteFile: "",
       deleteButtonDisable: true,
       deleteResource: "",
+      itemResource: "",
     };
   },
   methods: {
@@ -108,10 +113,12 @@ export default {
     changeValueInsert(value) {
       this.insertResource = value;
     },
-        changeValueDelete(value) {
+    changeValueDelete(value) {
       this.deleteResource = value;
     },
-
+    changeValueItem(value) {
+      this.itemResource = value;
+    },
     get_deletableFile(val) {
       this.deletableFile = val.data;
     },
@@ -122,14 +129,14 @@ export default {
         alert("上传失败");
       }
     },
-    fileIncrease(file){
-      if (file.status !== 'ready') return;
+    fileIncrease(file) {
+      if (file.status !== "ready") return;
       this.fileList.push(file);
     },
-    fileRemove(file){
-      var index = this.fileList.findIndex(item => {
-	      return item === file
-        });
+    fileRemove(file) {
+      var index = this.fileList.findIndex((item) => {
+        return item === file;
+      });
       this.fileList.splice(index, 1);
     },
     filePreview(file) {
@@ -150,7 +157,7 @@ export default {
     fdelete() {
       var formData = new FormData();
       formData.append("resource", this.deleteResource);
-            formData.append("type", "delete");
+      formData.append("type", "delete");
       formData.append("filename", this.deleteFile);
 
       request_json.POST_File(this.post_success, formData, "/data");
@@ -170,15 +177,19 @@ export default {
     },
     deleteResource: {
       handler(newDeleteResource) {
-        if (newDeleteResource == ""){
+        if (newDeleteResource == "") {
           return;
         }
         var params = {
-          resource: newDeleteResource
-        }
-        request_json.GET_WITH_PARAMS(this.get_deletableFile, '/dataname', params)
-      }
-    }
+          resource: newDeleteResource,
+        };
+        request_json.GET_WITH_PARAMS(
+          this.get_deletableFile,
+          "/dataname",
+          params
+        );
+      },
+    },
   },
 };
 </script>
