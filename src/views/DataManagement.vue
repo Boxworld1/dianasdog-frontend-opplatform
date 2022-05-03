@@ -174,7 +174,7 @@ export default {
       });
       this.fileList.splice(index, 1);
     },
-    filePreview(file) {
+    filePreview() {
       //todo: show file context
     },
     submitUpload() {
