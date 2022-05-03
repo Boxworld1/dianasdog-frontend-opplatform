@@ -171,7 +171,7 @@ export default {
           resource: this.target,
           type: "pattern",
         };
-        request_json.GET_WITH_PARAMS(this.read_pattern, msg, "/pattern");
+        request_json.GET_WITH_PARAMS(this.read_pattern, "/pattern", msg);
       }
     },
     postpattern(patterns) {

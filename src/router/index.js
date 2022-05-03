@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginPage from '../views/LoginPage.vue'
 import PatternConfig from '../views/PatternConfig.vue'
-import WriteSetting from '../views/WriteSetting.vue'
+import WScopy from '../views/WScopy'
 import DataManagement from '../views/DataManagement.vue'
 import NotFound from '../views/NotFound.vue'
 
@@ -25,8 +25,8 @@ const routes = [
       {
         //写入行为描述
         path: '/writesetting',
-        name: 'WriteSetting',
-        component: WriteSetting
+        name: 'WScopy',
+        component: WScopy
       },
       {
         //数据管理
