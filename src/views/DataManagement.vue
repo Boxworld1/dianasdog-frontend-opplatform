@@ -77,21 +77,38 @@
       </el-col>
       <el-col :span="10">
         <!-- 提供一个搜索item的key -->
-        <el-input v-model="itemKey" placeholder="请输入item的key" style="margin-left:30px" >
-        <el-button icon="el-icon-search" slot="append" @click="searchItem" :disabled="searchItemDisable"/>
+        <el-input
+          v-model="itemKey"
+          placeholder="请输入item的key"
+          style="margin-left: 30px"
+        >
+          <el-button
+            icon="el-icon-search"
+            slot="append"
+            @click="searchItem"
+            :disabled="searchItemDisable"
+          />
         </el-input>
       </el-col>
     </el-row>
     <el-dialog :title="itemKey" :visible.sync="itemDialogVisible">
       <!-- xuanran -->
-      <p>{{ itemBody }}</p>
-            <div slot="footer" class="dialog-footer">
-        <el-button @click="itemDialogVisible = false;itemBody = ''">取 消</el-button>
-        <el-button type="primary" @click="submitDialogItem"
-          >确 定</el-button
+      <el-input
+        type="textarea"
+        v-model="itemBody"
+        :autosize="true"
+        clearable
+      ></el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="
+            itemDialogVisible = false;
+            itemBody = '';
+          "
+          >取 消</el-button
         >
+        <el-button type="primary" @click="submitDialogItem">确 定</el-button>
       </div>
-
     </el-dialog>
   </div>
 </template>
@@ -112,10 +129,10 @@ export default {
       deleteButtonDisable: true,
       deleteResource: "",
       itemResource: "",
-      itemKey: '',
+      itemKey: "",
       searchItemDisable: true,
       itemDialogVisible: false,
-      itemBody: ''
+      itemBody: "",
     };
   },
   methods: {
@@ -161,6 +178,9 @@ export default {
       //todo: show file context
     },
     submitUpload() {
+      if (this.fileList.length === 0){
+        alert("没有可上传的文件！");
+      }
       for (var i = 0; i < this.fileList.length; i++) {
         var formData = new FormData();
         formData.append("file", this.fileList[i].raw);
@@ -170,6 +190,7 @@ export default {
 
         request_json.POST_File(this.post_success, formData, "/data");
       }
+      this.insertResource = '';
       this.fileList = [];
     },
     fdelete() {
@@ -189,9 +210,30 @@ export default {
       this.itemDialogVisible = true;
       var params = {
         resource: this.itemResource,
-        key: this.itemKey
+        key: this.itemKey,
+      };
+      request_json.GET_WITH_PARAMS(this.getItemBody, "/item", params);
+    },
+    submitDialogItem() {
+      var formData = new FormData();
+      var item = {
+        data: this.itemBody,
+      };
+      formData.append("resource", this.itemResource);
+      formData.append("type", "insert");
+      formData.append("data", JSON.stringify(item));
+      request_json.POST_File(this.item_post_success, formData, "data");
+    },
+    item_post_success(bool) {
+      if(bool) {
+        this.itemDialogVisible = false;
+        alert(this.itemResource + this.itemKey + "上传成功！");
+        this.itemResource = '';
+        this.itemKey = '';
       }
-      request_json.GET_WITH_PARAMS(this.getItemBody, '/item', params);
+      else {
+        alert(this.itemResource + this.itemKey + "上传失败！");
+      }
     }
   },
   watch: {
@@ -230,8 +272,8 @@ export default {
           return;
         }
         this.searchItemDisable = false;
-      }
-    }
+      },
+    },
   },
 };
 </script>

@@ -28,11 +28,9 @@ const request_json = {
         if (res.status === 201 || res.status === 200) {
           post_function(true)
         }
-        else {
-          post_function(false)
-        }
       })
       .catch(function (error) {
+        post_function(false)
         console.log(error)
       })
   },
@@ -43,11 +41,9 @@ const request_json = {
           let pass = res.data.password
           post_function(pass)
         }
-        else {
-          post_function(false)
-        }
       })
       .catch(function (error) {
+        post_function(false)
         console.log(error)
       })
   },
@@ -62,11 +58,9 @@ const request_json = {
         if (res.status === 201 || res.status === 200) {
           post_function(true)
         }
-        else {
-          post_function(false)
-        }
       })
       .catch(function (error) {
+        post_function(false)
         console.log(error)
       })
   }
