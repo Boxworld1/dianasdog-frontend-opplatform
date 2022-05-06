@@ -2,13 +2,17 @@
   <div>
     <el-container>
       <el-aside width="200px">
-        <el-menu class="el-munu-vertical-demo" background-color="#1b3554" text-color="#fff" active-text-color="#409eff"
-          router>
+        <el-menu
+        class="el-munu-vertical-demo"
+        background-color="#1b3554"
+        text-color="#fff"
+        active-text-color="#409eff"
+        router>
           <el-menu-item>
             <span slot="title">
               运营平台
             </span>
-          </el-menu-item>
+            </el-menu-item>
           <el-menu-item-group>
             <el-menu-item index="/configpattern">
               <i class="el-icon-message"></i>模版配置
@@ -92,12 +96,10 @@ export default {
 
 <style>
 .platform-title {
-  background-color: #b3c0d1;
   color: #333;
   line-height: 60px;
 
 }
-
 .el-header {
   background-color: #b3c0d1;
   color: #333;

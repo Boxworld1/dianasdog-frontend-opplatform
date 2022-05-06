@@ -16,7 +16,7 @@ const routes = [
     path: '/home',
     name: 'home',
     component: HomeView,
-    children: [
+    children:[
       {
         //写入行为描述
         path: '/writesetting',
