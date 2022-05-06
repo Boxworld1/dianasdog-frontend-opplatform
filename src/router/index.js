@@ -17,20 +17,21 @@ const routes = [
     component: HomeView,
     children:[
       {
-        //模版配置
-        path: '/pattern',
-        name: 'PatternConfig',
-        component: PatternConfig
-      },
-      {
         //写入行为描述
         path: '/writesetting',
         name: 'WScopy',
         component: WScopy
       },
       {
+        //模版配置
+        path: '/configpattern',
+        name: 'PatternConfig',
+        component: PatternConfig
+      },
+
+      {
         //数据管理
-        path: '/datamanage',
+        path: '/managedata',
         name: 'DataManagement',
         component: DataManagement
       }

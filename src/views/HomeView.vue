@@ -2,22 +2,26 @@
   <div>
     <el-container>
       <el-aside width="200px">
-        <el-menu>
+        <el-menu
+        class="el-munu-vertical-demo"
+        background-color="#1b3554"
+        text-color="#fff"
+        active-text-color="#409eff"
+        router>
+          <el-menu-item>
+            <span slot="title">
+              运营平台
+            </span>
+            </el-menu-item>
           <el-menu-item-group>
-            <el-menu-item index="1">
-              <router-link to="/pattern" class="router-link-active"
-                ><i class="el-icon-message"></i>模版配置</router-link
-              >
+            <el-menu-item index="/configpattern">
+              <i class="el-icon-message"></i>模版配置
             </el-menu-item>
-            <el-menu-item index="2">
-              <router-link to="/writesetting" class="router-link-active"
-                ><i class="el-icon-message"></i>写入描述</router-link
-              >
+            <el-menu-item index="/writesetting">
+              <i class="el-icon-message"></i>写入描述
             </el-menu-item>
-            <el-menu-item index="3">
-              <router-link to="/datamanage" class="router-link-active"
-                ><i class="el-icon-message"></i>数据管理</router-link
-              >
+            <el-menu-item index="/managedata">
+             <i class="el-icon-message"></i>数据管理
             </el-menu-item>
           </el-menu-item-group>
         </el-menu>
@@ -55,6 +59,12 @@ export default {
 </script>
 
 <style>
+.platform-title{
+  background-color: #b3c0d1;
+  color: #333;
+  line-height: 60px;
+
+}
 .el-header {
   background-color: #b3c0d1;
   color: #333;
@@ -63,6 +73,11 @@ export default {
 
 .el-aside {
   color: #333;
+}
+
+.el-munu-vertical-demo {
+  background-color: #1b3554;
+  text-decoration-color: #fff;
 }
 
 .router-link-active {

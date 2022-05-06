@@ -24,7 +24,6 @@
           v-if="inputVisible"
           v-model="inputValue"
           ref="saveTagInput"
-          size="small"
           @keyup.enter.native="handleInputConfirm"
           @blur="handleInputConfirm"
         >
