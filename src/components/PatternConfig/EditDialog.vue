@@ -34,7 +34,7 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button v-on:click="cancelEdit()">取 消</el-button>
+      <el-button v-on:click="dynamicTags = rawpattern.split('+');cancelEdit()">取 消</el-button>
       <el-button
         type="primary"
         :disabled="dynamicTags.length == 0"

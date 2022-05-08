@@ -1,33 +1,16 @@
 <template>
   <el-form>
     <el-form-item label="Resource">
-      <el-select
-        v-model="target"
-        placeholder="请选择配置目标"
-        style="margin-right: 45px"
-      >
-        <el-option
-          v-for="(resource, index) in resourceList"
-          :key="index"
-          :label="resource"
-          :value="resource"
-        >
+      <el-select v-model="target" placeholder="请选择配置目标" style="margin-right: 45px">
+        <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
         </el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="Intent">
-      <dynamicTags
-        :type="types[0]"
-        :Taglist="intentList"
-        :submitchange="submitchange"
-      />
+      <dynamicTags :type="types[0]" :Taglist="intentList" :submitchange="submitchange" />
     </el-form-item>
     <el-form-item label="Garbage">
-      <dynamicTags
-        :type="types[1]"
-        :Taglist="garbageList"
-        :submitchange="submitchange"
-      />
+      <dynamicTags :type="types[1]" :Taglist="garbageList" :submitchange="submitchange" />
     </el-form-item>
   </el-form>
 </template>
@@ -59,12 +42,7 @@ export default {
       this.garbageList = param.data;
     },
     check(bool) {
-      if (!bool) {
-        this.$message({
-          message: "编辑失败",
-          type: "error",
-        });
-      }
+      this.checkValue = bool
     },
     post_success(bool) {
       if (bool) {
@@ -80,17 +58,25 @@ export default {
         });
       }
     },
-    submitchange(mytype, addlist, deletelist) {
+    async submitchange(mytype, addlist, deletelist) {
       var msg = {
         type: mytype,
         resource: this.target,
         data: addlist,
         operation: "insert",
       };
-      request_json.POST(this.check, msg, "/pattern");
-      msg.data = deletelist;
-      msg.operation = "delete";
-      request_json.POST(this.post_success, msg, "/pattern");
+      await request_json.POST(this.check, msg, "/pattern").then(() => {
+        if (!this.checkValue) {
+          this.$message({
+            message: "编辑失败",
+            type: "error",
+          });
+        } else {
+          msg.data = deletelist;
+          msg.operation = "delete";
+          request_json.POST(this.post_success, msg, "/pattern");
+        }
+      })
     },
     getWord() {
       var msg = {
