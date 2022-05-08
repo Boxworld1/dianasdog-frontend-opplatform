@@ -1,20 +1,13 @@
 <template>
-  <el-menu
-    :default-openeds="[]"
-    @select="handleSelect"
-    style="background: #b0c7e7; border-radius: 4px; margin: 10px"
-  >
-    <el-submenu index="pattern" style="text-align: left">
-      <template slot="title"
-        ><i class="el-icon-s-promotion" />
-        {{ rawpattern }}
-      </template>
-      <el-menu-item index="edit"> <i class="el-icon-edit" />Edit</el-menu-item>
-      <el-menu-item index="delete">
-        <i class="el-icon-delete" />Delete</el-menu-item
-      >
-    </el-submenu>
-  </el-menu>
+  <div style="background: #b0c7e7; border-radius: 4px; margin: 10px">
+    <span style="text-align: left"><i class="el-icon-s-promotion" />{{ rawpattern }}</span>
+    <span>
+      <!-- <el-button type="primary" icon="el-icon-edit" circle v-on:click="edit(rawpattern)"></el-button>
+      <el-button type="danger" icon="el-icon-delete" circle v-on:click="deletepattern([rawpattern])"></el-button> -->
+      <el-button type="primary" v-on:click="edit(rawpattern)"><i class="el-icon-edit" />Edit</el-button>
+      <el-button type="danger" v-on:click="deletepattern([rawpattern])"><i class="el-icon-delete" />Delete</el-button>
+    </span>
+  </div>
 </template>
 
 <script>
@@ -28,23 +21,14 @@ export default {
     edit: {
       type: Function,
       default: () => {
-        return () => {};
+        return () => { };
       },
     },
     deletepattern: {
       type: Function,
       default: () => {
-        return () => {};
+        return () => { };
       },
-    },
-  },
-  methods: {
-    handleSelect(key) {
-      if (key == "edit") {
-        this.edit(this.rawpattern);
-      } else {
-        this.deletepattern([this.rawpattern]);
-      }
     },
   },
 };

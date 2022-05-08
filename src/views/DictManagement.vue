@@ -63,8 +63,8 @@ export default {
       this.backflag = !this.backflag
     },
     async submitchange(mytype, Taglist, curTags) {
-      var addlist = curTags.fliter(x => !Taglist.includes(x))
-      var deletelist = Taglist.fliter(x => !curTags.includes(x))
+      var addlist = curTags.filter(x => !Taglist.includes(x))
+      var deletelist = Taglist.filter(x => !curTags.includes(x))
       var msg = {
         type: mytype,
         resource: this.target,
