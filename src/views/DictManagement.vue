@@ -7,10 +7,12 @@
       </el-select>
     </el-form-item>
     <el-form-item label="Intent">
-      <dynamicTags :type="types[0]" :Taglist="intentList" :submitchange="submitchange" />
+      <dynamicTags :type="'intent'" :Taglist="intentList" :backflag="backflag" :cancelchange="cancelchange"
+        :submitchange="submitchange" />
     </el-form-item>
     <el-form-item label="Garbage">
-      <dynamicTags :type="types[1]" :Taglist="garbageList" :submitchange="submitchange" />
+      <dynamicTags :type="'garbage'" :Taglist="garbageList" :backflag="backflag" :cancelchange="cancelchange"
+        :submitchange="submitchange" />
     </el-form-item>
   </el-form>
 </template>
@@ -24,8 +26,8 @@ export default {
   data() {
     return {
       target: "",
+      backflag: false,
       checkValue: false,
-      types: ["intent", "garbage"],
       resourceList: [],
       intentList: [],
       garbageList: [],
@@ -50,7 +52,6 @@ export default {
           message: "编辑成功",
           type: "success",
         });
-        this.getWord();
       } else {
         this.$message({
           message: "编辑失败",
@@ -58,7 +59,12 @@ export default {
         });
       }
     },
-    async submitchange(mytype, addlist, deletelist) {
+    cancelchange() {
+      this.backflag = !this.backflag
+    },
+    async submitchange(mytype, Taglist, curTags) {
+      var addlist = curTags.fliter(x => !Taglist.includes(x))
+      var deletelist = Taglist.fliter(x => !curTags.includes(x))
       var msg = {
         type: mytype,
         resource: this.target,
@@ -78,7 +84,9 @@ export default {
         }
       })
     },
-    getWord() {
+  },
+  watch: {
+    target() {
       var msg = {
         resource: this.target,
         type: "intent",
@@ -86,11 +94,6 @@ export default {
       request_json.GET_WITH_PARAMS(this.read_intent, "/pattern", msg);
       msg.type = "garbage";
       request_json.GET_WITH_PARAMS(this.read_garbage, "/pattern", msg);
-    },
-  },
-  watch: {
-    target() {
-      this.getWord()
     },
   },
   created() {

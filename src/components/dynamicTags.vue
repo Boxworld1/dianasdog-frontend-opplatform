@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <el-tag v-for="(tag, index) in rawTags" :key="index" :type="types[index % 5]" closable @close="handleClose(tag)">
+      <el-tag v-for="(tag, index) in curTags" :key="index" :type="types[index % 5]" closable @close="handleClose(tag)">
         {{ tag }}
       </el-tag>
       <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small"
@@ -11,7 +11,7 @@
     </div>
     <span slot="footer">
       <el-button v-on:click="cancelchange()">取 消</el-button>
-      <el-button type="primary" v-on:click="submitchange(type, addTags, deleteTags)">确 定</el-button>
+      <el-button type="primary" v-on:click="submitchange(type, Taglist, curTags)">确 定</el-button>
     </span>
   </div>
 </template>
@@ -20,13 +20,21 @@
 export default {
   name: "dynamicTags",
   props: {
-    Taglist: {
-      type: Array,
-      default: () => ["test1", "test2", "test3", "test4", "test5"],
-    },
     type: {
       type: String,
       default: () => ""
+    },
+    Taglist: {
+      type: Array,
+      default: () => [],
+    },
+    backflag: {
+      type: Boolean,
+      default: () => true
+    },
+    cancelchange: {
+      type: Function,
+      default: () => { },
     },
     submitchange: {
       type: Function,
@@ -35,9 +43,7 @@ export default {
   },
   data() {
     return {
-      rawTags: [],
-      addTags: [],
-      deleteTags: [],
+      curTags: [],
       types: ["", "success", "info", "warning", "danger"],
       inputVisible: false,
       inputValue: "",
@@ -45,16 +51,7 @@ export default {
   },
   methods: {
     handleClose(tag) {
-      this.rawTags.splice(this.rawTags.indexOf(tag), 1);
-      if (
-        this.Taglist.indexOf(tag) != -1 &&
-        this.deleteTags.indexOf(tag) == -1
-      ) {
-        this.deleteTags.push(tag);
-      }
-      if (this.addTags.indexOf(tag) != -1) {
-        this.addTags.splice(this.addTags.indexOf(tag), 1);
-      }
+      this.curTags.splice(this.curTags.indexOf(tag), 1);
     },
 
     showInput() {
@@ -67,37 +64,23 @@ export default {
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
-        if (this.rawTags.indexOf(inputValue) != -1) {
+        if (this.curTags.indexOf(inputValue) != -1 && this.type != "pattern") {
           alert("The word has existed.");
         } else {
-          this.rawTags.push(inputValue);
-        }
-        if (
-          this.Taglist.indexOf(inputValue) != -1 &&
-          this.deleteTags.indexOf(inputValue) != -1
-        ) {
-          this.deleteTags.splice(this.deleteTags.indexOf(inputValue), 1);
-        }
-        if (
-          this.Taglist.indexOf(inputValue) == -1 &&
-          this.addTags.indexOf(inputValue) == -1
-        ) {
-          this.addTags.push(inputValue);
+          this.curTags.push(inputValue);
         }
       }
       this.inputVisible = false;
       this.inputValue = "";
     },
-    cancelchange() {
-      this.rawTags = this.Taglist;
-      this.addTags = [];
-      this.deleteTags = [];
-    },
   },
   watch: {
     Taglist(curval) {
-      this.rawTags = curval.concat();
+      this.curTags = curval.concat();
     },
+    backflag() {
+      this.curTags = this.Taglist;
+    }
   },
 };
 </script>
