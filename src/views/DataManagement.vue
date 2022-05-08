@@ -2,25 +2,62 @@
   <div>
     <el-row class="el-row-style">
       <el-col :span="6">增加数据</el-col>
-      <el-col :span="8">
-        <resource-select :options="options" @changeValue="changeValueInsert" :get_options="get_options" />
+      <el-col :span="6">
+        <resource-select
+          :options="options"
+          @changeValue="changeValueInsert"
+          :get_options="get_options"
+          :value="insertResource"
+        />
       </el-col>
-      <el-col :span="10">
-        <el-upload class="upload-demo" ref="upload" action="#" :file-list="fileList" :on-change="fileIncrease"
-          :on-remove="fileRemove" :on-preview="filePreview" :auto-upload="false">
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <el-button style="margin-left: 10px" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+      <el-col :span="12">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          action="#"
+          :file-list="fileList"
+          :on-change="fileIncrease"
+          :on-remove="fileRemove"
+          :on-preview="filePreview"
+          :auto-upload="false"
+        >
+          <el-button slot="trigger" size="small" type="primary"
+            >选取文件</el-button
+          >
+          <el-button
+            style="margin-left: 10px"
+            size="small"
+            type="success"
+            @click="submitUpload"
+            :disabled="insertResource == ''"
+            >上传到服务器</el-button
+          >
         </el-upload>
       </el-col>
     </el-row>
     <el-row class="el-row-style">
       <el-col :span="6">删除数据</el-col>
       <el-col :span="6">
-        <resource-select :options="options" @changeValue="changeValueDelete" :get_options="get_options" />
+        <resource-select
+          :options="options"
+          @changeValue="changeValueDelete"
+          :get_options="get_options"
+          :value="deleteResource"
+        />
       </el-col>
       <el-col :span="12">
-        <el-select v-model="deleteFile" filterable placeholder="请选择想要删除的文件">
-          <el-option v-for="item in deletableFile" :key="item" :label="item" :value="item">
+        <el-select
+          v-model="deleteFile"
+          filterable
+          placeholder="请选择想要删除的文件"
+          @visible-change="get_deleteFile"
+        >
+          <el-option
+            v-for="item in deletableFile"
+            :key="item"
+            :label="item"
+            :value="item"
+          >
           </el-option>
         </el-select>
       </el-col>
@@ -31,7 +68,12 @@
     <el-row class="el-row-style">
       <el-col :span="6">修改数据</el-col>
       <el-col :span="6">
-        <resource-select :options="options" @changeValue="changeValueItem" :get_options="get_options" />
+        <resource-select
+          :options="options"
+          @changeValue="changeValueItem"
+          :get_options="get_options"
+          :value="itemResource"
+        />
       </el-col>
       <el-col :span="10">
         <!-- 提供一个搜索item的key -->
@@ -94,6 +136,21 @@ export default {
     },
     changeValueItem(value) {
       this.itemResource = value;
+    },
+    get_deleteFile(bool) {
+      if (bool) {
+        if (this.deleteResource == "") {
+          return;
+        }
+        var params = {
+          resource: this.deleteResource,
+        };
+        request_json.GET_WITH_PARAMS(
+          this.get_deletableFile,
+          "/dataname",
+          params
+        );
+      }
     },
     get_deletableFile(val) {
       this.deletableFile = val.data;
@@ -171,6 +228,7 @@ export default {
         alert(this.itemResource + this.itemKey + "上传成功！");
         this.itemResource = '';
         this.itemKey = '';
+        this.itemBody = '';
       }
       else {
         alert(this.itemResource + this.itemKey + "上传失败！");
@@ -187,21 +245,21 @@ export default {
         }
       },
     },
-    deleteResource: {
-      handler(newDeleteResource) {
-        if (newDeleteResource == "") {
-          return;
-        }
-        var params = {
-          resource: newDeleteResource,
-        };
-        request_json.GET_WITH_PARAMS(
-          this.get_deletableFile,
-          "/dataname",
-          params
-        );
-      },
-    },
+    // deleteResource: {
+    //   handler(newDeleteResource) {
+    //     if (newDeleteResource == "") {
+    //       return;
+    //     }
+    //     var params = {
+    //       resource: newDeleteResource,
+    //     };
+    //     request_json.GET_WITH_PARAMS(
+    //       this.get_deletableFile,
+    //       "/dataname",
+    //       params
+    //     );
+    //   },
+    // },
     itemKey: {
       handler(newItemKey) {
         if (newItemKey == "") {

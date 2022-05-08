@@ -1,6 +1,16 @@
 <template>
   <div>
-    <resource-select :options="options" @changeValue="changeValue" :get_options="get_options" />
+    <el-row>
+      <el-col :span="12">特性卡名称：</el-col>
+      <el-col :span="12">
+    <resource-select
+      :options="options"
+      @changeValue="changeValue"
+      :get_options="get_options"
+      :value="value_option"
+    />
+      </el-col>
+    </el-row>
     <div>
       <el-table :data="labels" style="width: 100%" height="600">
         <el-table-column fixed prop="name" label="标签名字" width="200" />
@@ -130,6 +140,14 @@ export default {
         var url = "/category";
         request_json.GET(this.set_options, url);
         console.log("aaa");
+      } else {
+        //do: set msg and url
+        var url = "/setting";
+        var params = {
+          resource: this.value_option,
+        };
+        request_json.GET_WITH_PARAMS(this.set_labels, url, params);
+
       }
     },
     set_options(val) {
@@ -195,6 +213,8 @@ export default {
       formData.append("resource", this.value_option);
       formData.append("data", JSON.stringify(setting_file));
       request_json.POST_File(this.submit_check, formData, "/setting");
+      this.value_option = '';
+      this.labels = [];
     },
     submit_check(bool) {
       if (bool) {
@@ -205,20 +225,20 @@ export default {
     },
   },
   watch: {
-    value_option: {
-      handler(value) {
-        console.log(value);
-        if (value == this.newResourceName) {
-          return;
-        }
-        //do: set msg and url
-        var url = "/setting";
-        var params = {
-          resource: value,
-        };
-        request_json.GET_WITH_PARAMS(this.set_labels, url, params);
-      },
-    },
+    // value_option: {
+    //   handler(value) {
+    //     console.log(value);
+    //     if (value == this.newResourceName) {
+    //       return;
+    //     }
+    //     //do: set msg and url
+    //     var url = "/setting";
+    //     var params = {
+    //       resource: value,
+    //     };
+    //     request_json.GET_WITH_PARAMS(this.set_labels, url, params);
+    //   },
+    // },
   },
 };
 </script>

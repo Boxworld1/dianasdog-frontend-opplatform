@@ -4,8 +4,7 @@
       <el-aside width="200px">
         <el-menu
         class="el-munu-vertical-demo"
-        background-color="#1b3554"
-        text-color="#fff"
+        text-color="#1b3554"
         active-text-color="#409eff"
         router>
           <el-menu-item>
