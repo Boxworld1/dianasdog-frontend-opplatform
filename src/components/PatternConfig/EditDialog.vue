@@ -64,15 +64,11 @@ export default {
     },
     cancelEdit: {
       type: Function,
-      default: () => {
-        return () => {};
-      },
+      default: () => {},
     },
     editpattern: {
       type: Function,
-      default: () => {
-        return () => {};
-      },
+      default: () => {},
     },
   },
   data() {
