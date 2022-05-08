@@ -79,9 +79,12 @@ export default {
       this.curTags = curval.concat();
     },
     backflag() {
-      this.curTags = this.Taglist;
+      this.curTags = this.Taglist.concat();
     }
   },
+  created() {
+    this.curTags = this.Taglist.concat();
+  }
 };
 </script>
 

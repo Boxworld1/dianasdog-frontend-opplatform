@@ -5,6 +5,7 @@ import LoginPage from '../views/LoginPage.vue'
 import PatternConfig from '../views/PatternConfig.vue'
 import WScopy from '../views/WScopy'
 import DataManagement from '../views/DataManagement.vue'
+import DictManagement from '../views/DictManagement.vue'
 import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
@@ -15,7 +16,7 @@ const routes = [
     path: '/home',
     name: 'home',
     component: HomeView,
-    children:[
+    children: [
       {
         //写入行为描述
         path: '/writesetting',
@@ -34,7 +35,14 @@ const routes = [
         path: '/managedata',
         name: 'DataManagement',
         component: DataManagement
+      },
+      {
+        //词表管理
+        path: '/managedict',
+        name: 'DictManagement',
+        component: DictManagement
       }
+
     ]
   },
   {

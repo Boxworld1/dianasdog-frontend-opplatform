@@ -1,17 +1,11 @@
 <template>
-  <el-dialog
-    style="text-align: center"
-    title="编辑模板"
-    :visible.sync="visible"
-    :show-close="false"
-    :before-close="cancelEdit"
-    width="60%"
-  >
+  <el-dialog style="text-align: center" title="编辑模板" :visible.sync="visible" :show-close="false"
+    :before-close="cancelEdit" width="60%">
     <el-form label-width="80px">
       <el-form-item label="Resource">{{ target }}</el-form-item>
       <el-form-item label="pattern">
-        <dynamicTags :type="'pattern'" :Taglist="rawpattern.split('+')" :backflag="backflag" :cancelchange="cancelEdit"
-        :submitchange="editpattern" />
+        <dynamicTags :type="'pattern'" :Taglist="rawtags" :backflag="backflag" :cancelchange="cancelEdit"
+          :submitchange="editpattern" />
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -31,7 +25,7 @@ export default {
       type: String,
       default: () => "",
     },
-    backflag:{
+    backflag: {
       type: Boolean,
       default: () => true
     },
@@ -42,25 +36,29 @@ export default {
     cancelEdit: {
       type: Function,
       default: () => {
-        return () => {};
+        return () => { };
       },
     },
     editpattern: {
       type: Function,
       default: () => {
-        return () => {};
+        return () => { };
       },
     },
   },
   data() {
     return {
       visible: false,
+      rawtags: []
     };
   },
   watch: {
     dialogVisible(curval) {
       this.visible = curval;
     },
+    rawpattern(curval) {
+      this.rawtags = curval.split('+')
+    }
   },
 };
 </script>

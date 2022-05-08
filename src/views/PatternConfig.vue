@@ -24,8 +24,8 @@
       v-bind:postpattern="postpattern" />
     <DeleteDialog :dialogVisible="deleteDialog.dialogVisible" :target="target" :patternList="patternList"
       v-bind:cancelDelete="cancelDelete" v-bind:deletepattern="deletepattern" />
-    <EditDialog :dialogVisible="editDialog.dialogVisible" :target="target" :rawpattern="curpattern" :backflag="editDialog.backflag"
-      v-bind:cancelEdit="cancelEdit" v-bind:editpattern="editpattern" />
+    <EditDialog :dialogVisible="editDialog.dialogVisible" :target="target" :rawpattern="curpattern"
+      :backflag="editDialog.backflag" v-bind:cancelEdit="cancelEdit" v-bind:editpattern="editpattern" />
   </div>
 </template>
 
