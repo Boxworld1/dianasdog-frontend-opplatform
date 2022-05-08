@@ -27,15 +27,11 @@ export default {
     },
     edit: {
       type: Function,
-      default: () => {
-        return () => {};
-      },
+      default: () => {},
     },
     deletepattern: {
       type: Function,
-      default: () => {
-        return () => {};
-      },
+      default: () => {},
     },
   },
   methods: {

@@ -21,4 +21,26 @@ describe('EditDialog.vue', () => {
     })
     expect(wrapper.exists()).toBe(true)
   })
+
+  it('test methods', () => {
+    const wrapper = shallowMount(EditDialog, {
+      props: {
+        dialogVisible: true,
+        target: "hi",
+        rawpattern: "by",
+      },
+      data() {
+        return {
+          dynamicTags: ["mytag"],
+          inputVisible: false,
+          inputValue: "input",
+          visible: false,
+        }
+      }
+    })
+    wrapper.vm.showInput()
+    wrapper.vm.handleClose()
+    wrapper.vm.handleInputConfirm()
+    wrapper.vm.$options.watch.dialogVisible.call(wrapper.vm)
+  })
 })
