@@ -73,8 +73,9 @@ export default {
       }
       request_json.POST_User(this.back_check, user);
     },
-    onSubmit(form) {
-      this.check_pass();
+    async onSubmit(form) {
+      await this.check_pass();
+      setTimeout(() => {
       this.$refs[form].validate((valid) => {
         if (valid && this.passwdValid) {
           sessionStorage.setItem("isLogin", "true");
@@ -88,6 +89,7 @@ export default {
           return false;
         }
       });
+      },500)
     },
   },
 };

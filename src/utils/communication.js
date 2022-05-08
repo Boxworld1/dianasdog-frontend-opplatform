@@ -34,8 +34,8 @@ const request_json = {
         console.log(error)
       })
   },
-  POST_User: (post_function, new_message) => {
-    axios.post('/login', JSON.stringify(new_message))
+  POST_User: async(post_function, new_message) => {
+    await axios.post('/login', JSON.stringify(new_message))
       .then((res) => {
         if (res.status === 201 || res.status === 200) {
           let pass = res.data.password
