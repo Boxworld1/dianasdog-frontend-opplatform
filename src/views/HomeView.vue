@@ -53,11 +53,7 @@ import user from '../store/modules/user.js'
 export default {
   name: "HomeView",
   components: {},
-  methods: {
-    logout() {
-      this.$router.push('/logout');
-    }
-  },
+    
   data () {
     var level = 0;
     var username = "";
@@ -67,6 +63,9 @@ export default {
     }
   },
   methods:{
+    logout() {
+      this.$router.push('/logout');
+    },
     setLevel(val)
     {
       console.log(val);

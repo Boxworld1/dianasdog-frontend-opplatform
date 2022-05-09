@@ -141,7 +141,7 @@ export default {
      //do: convert val to list items
     handleDelete(index) {
       console.log(index);
-      request_json.POST(this.delete , {username :this.users[index].name}, "/userDelete");
+      request_json.POST(this.delete , {username :this.users[index].name}, "/userdelete");
       this.users.splice(index, 1);
       console.log(index);
       console.log(this.users[index].name);
@@ -161,7 +161,7 @@ export default {
       this.dialogLabelVisible = false;
       this.form.password = bcrypt.hashSync(this.form.password,10);
       this.users.push(this.form);
-      request_json.POST(this.delete , {username :this.form.name,userpassword: this.form.password,userlevel: this.form.level}, "/userAdd");
+      request_json.POST(this.delete , {username :this.form.name,userpassword: this.form.password,userlevel: this.form.level}, "/useradd");
       this.resetFormLabel();
     },
     submit_check(bool) {
@@ -176,7 +176,7 @@ export default {
 
 
   mounted () {
-    var url = "/AllUser";
+    var url = "/alluser";
     request_json.GET(this.set_users, url);
   }, 
     
