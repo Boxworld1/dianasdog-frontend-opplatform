@@ -34,6 +34,21 @@ module.exports = defineConfig({
         secure: false,
         changeOrigin: true,
       },
+      '/AllUser': {
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
+        changeOrigin: true,
+      },
+      '/userDelete': {
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
+        changeOrigin: true,
+      },
+      '/userAdd': {
+        target: 'https://Backend-DianasDog.app.secoder.net', // todo:修改为你的Django服务器地址
+        secure: false,
+        changeOrigin: true,
+      },
 
     }
   },

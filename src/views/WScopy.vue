@@ -9,7 +9,7 @@
       <el-table :data="labels" style="width: 100%" height="600">
         <el-table-column fixed prop="name" label="标签名字" width="200" />
         <el-table-column prop="es" label="是否插入es">
-          <template slot-scope="scope">
+          .<template slot-scope="scope">
             <el-radio-group v-model="scope.row.es">
               <el-radio-button :label="true">是</el-radio-button>
               <el-radio-button :label="false">否</el-radio-button>
