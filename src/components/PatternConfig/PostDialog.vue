@@ -43,15 +43,11 @@ export default {
     },
     cancelPost: {
       type: Function,
-      default: () => {
-        return () => {};
-      },
+      default: () => {},
     },
     postpattern: {
       type: Function,
-      default: () => {
-        return () => {};
-      },
+      default: () => {},
     },
   },
   data() {
