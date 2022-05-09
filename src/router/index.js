@@ -6,7 +6,7 @@ import PatternConfig from '../views/PatternConfig.vue'
 import WScopy from '../views/WScopy'
 import DataManagement from '../views/DataManagement.vue'
 import NotFound from '../views/NotFound.vue'
-
+import UserManagement from '../views/UserManagement.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +33,12 @@ const routes = [
         path: '/datamanage',
         name: 'DataManagement',
         component: DataManagement
+      },
+      {
+        //用户管理
+        path: '/usermanage',
+        name: 'UserManagement',
+        component: UserManagement
       }
     ]
   },
