@@ -19,15 +19,15 @@ Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   let isLogin = sessionStorage.getItem('isLogin');
 
-  if(to.path=='/logout') {
+  if (to.path == '/logout') {
     sessionStorage.clear();
-    next({path: '/login'});
-  } else if (to.path=='/login'){
+    next({ path: '/login' });
+  } else if (to.path == '/login') {
     if (isLogin != null) {
-      next({path: '/home'});
+      next({ path: '/home' });
     }
-  } else if(isLogin == null) {
-    next({path: '/login'});
+  } else if (isLogin == null) {
+    next({ path: '/login' });
   }
 
   next();

@@ -12,9 +12,7 @@
       </el-form-item>
       <el-form-item>
         <el-upload class="upload-demo" action='#' :file-list="fileList" :http-request="uploadFile">
-          <el-button size="small" type="primary" :disabled="uploadDisable"
-            >点击上传</el-button
-          >
+          <el-button size="small" type="primary" :disabled="uploadDisable">点击上传</el-button>
         </el-upload>
         <el-button type="primary" @click="onSubmit('form')">提交</el-button>
         <el-button>取消</el-button>

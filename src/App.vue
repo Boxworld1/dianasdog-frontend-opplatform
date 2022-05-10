@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
     window.addEventListener('unload', this.saveState);
   },
   methods: {
-    saveState(){
+    saveState() {
       sessionStorage.setItem('state', JSON.stringify(this.$store.state.user));
     }
   },

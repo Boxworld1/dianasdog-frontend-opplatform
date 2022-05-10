@@ -20,7 +20,7 @@ describe('WriteSetting.vue', () => {
     const wrapper = shallowMount(WriteSetting)
     expect(wrapper.exists()).toBe(true)
     wrapper.vm.upload_succ(true)
-    wrapper.vm.uploadFile("myitem")   
+    wrapper.vm.uploadFile("myitem")
   })
 })
 
@@ -53,7 +53,7 @@ describe('UserManagement.vue', () => {
       }
     });
     const wrapper = shallowMount(UserManagement)
-    expect(wrapper.exists()).toBe(true) 
+    expect(wrapper.exists()).toBe(true)
   })
 })
 

@@ -13,7 +13,7 @@ describe('resourceSelect.vue', () => {
     const wrapper = shallowMount(resourceSelect, {
       props: {
         options: ["1", "2"]
-      }, 
+      },
       data() {
         return {
           value: ''

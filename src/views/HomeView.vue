@@ -36,9 +36,7 @@
           </el-dropdown>
           <span style="margin-right: 15px">{{ $store.getters.getUser.name }}</span>
           <span id="usermanage" hidden>
-            <router-link to="/usermanage" class="router-link-active"
-                >用户管理</router-link
-              >
+            <router-link to="/usermanage" class="router-link-active">用户管理</router-link>
           </span>
         </el-header>
 
@@ -56,40 +54,38 @@ import user from '../store/modules/user.js'
 export default {
   name: "HomeView",
   components: {},
-    
-  data () {
+
+  data() {
     var level = 0;
     var username = "";
-    return{
+    return {
       level,
       username,
     }
   },
-  methods:{
+  methods: {
     logout() {
       this.$router.push('/logout');
     },
-    setLevel(val)
-    {
+    setLevel(val) {
       console.log(val);
       this.level = val;
       console.log(this.level);
-      if(this.level == 3)
-          {
-            document.getElementById("usermanage").removeAttribute("hidden");
-          }
+      if (this.level == 3) {
+        document.getElementById("usermanage").removeAttribute("hidden");
+      }
     }
   },
-  mounted () {
+  mounted() {
     console.log(this.level);
     this.username = user.state.user.name;
-        var user1 = {
-            "username": this.username,
-          }
-        request_json.POST_Userlevel(this.setLevel, user1);
-        console.log(this.level)
+    var user1 = {
+      "username": this.username,
+    }
+    request_json.POST_Userlevel(this.setLevel, user1);
+    console.log(this.level)
 
-    
+
   }
 };
 </script>

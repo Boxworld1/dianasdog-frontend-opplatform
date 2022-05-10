@@ -3,110 +3,51 @@
     <el-row class="el-row-style">
       <el-col :span="6">增加数据</el-col>
       <el-col :span="8">
-        <resource-select
-          :options="options"
-          @changeValue="changeValueInsert"
-          :get_options="get_options"
-        />
+        <resource-select :options="options" @changeValue="changeValueInsert" :get_options="get_options" />
       </el-col>
       <el-col :span="10">
-        <el-upload
-          class="upload-demo"
-          ref="upload"
-          action="#"
-          :file-list="fileList"
-          :on-change="fileIncrease"
-          :on-remove="fileRemove"
-          :on-preview="filePreview"
-          :auto-upload="false"
-        >
-          <el-button slot="trigger" size="small" type="primary"
-            >选取文件</el-button
-          >
-          <el-button
-            style="margin-left: 10px"
-            size="small"
-            type="success"
-            @click="submitUpload"
-            >上传到服务器</el-button
-          >
+        <el-upload class="upload-demo" ref="upload" action="#" :file-list="fileList" :on-change="fileIncrease"
+          :on-remove="fileRemove" :on-preview="filePreview" :auto-upload="false">
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
         </el-upload>
       </el-col>
     </el-row>
     <el-row class="el-row-style">
       <el-col :span="6">删除数据</el-col>
       <el-col :span="6">
-        <resource-select
-          :options="options"
-          @changeValue="changeValueDelete"
-          :get_options="get_options"
-        />
+        <resource-select :options="options" @changeValue="changeValueDelete" :get_options="get_options" />
       </el-col>
       <el-col :span="12">
-        <el-select
-          v-model="deleteFile"
-          filterable
-          placeholder="请选择想要删除的文件"
-        >
-          <el-option
-            v-for="item in deletableFile"
-            :key="item"
-            :label="item"
-            :value="item"
-          >
+        <el-select v-model="deleteFile" filterable placeholder="请选择想要删除的文件">
+          <el-option v-for="item in deletableFile" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-col>
       <div>
-        <el-button
-          type="primary"
-          :disabled="deleteButtonDisable"
-          @click="fdelete"
-          >确认删除</el-button
-        >
+        <el-button type="primary" :disabled="deleteButtonDisable" @click="fdelete">确认删除</el-button>
       </div>
     </el-row>
     <el-row class="el-row-style">
       <el-col :span="6">修改数据</el-col>
       <el-col :span="6">
-        <resource-select
-          :options="options"
-          @changeValue="changeValueItem"
-          :get_options="get_options"
-        />
+        <resource-select :options="options" @changeValue="changeValueItem" :get_options="get_options" />
       </el-col>
       <el-col :span="10">
         <!-- 提供一个搜索item的key -->
-        <el-input
-          v-model="itemKey"
-          placeholder="请输入item的key"
-          style="margin-left: 30px"
-        >
-          <el-button
-            icon="el-icon-search"
-            slot="append"
-            @click="searchItem"
-            :disabled="searchItemDisable"
-          />
+        <el-input v-model="itemKey" placeholder="请输入item的key" style="margin-left: 30px">
+          <el-button icon="el-icon-search" slot="append" @click="searchItem" :disabled="searchItemDisable" />
         </el-input>
       </el-col>
     </el-row>
     <el-dialog :title="itemKey" :visible.sync="itemDialogVisible">
       <!-- xuanran -->
-      <el-input
-        type="textarea"
-        v-model="itemBody"
-        :autosize="true"
-        clearable
-      ></el-input>
+      <el-input type="textarea" v-model="itemBody" :autosize="true" clearable></el-input>
       <div slot="footer" class="dialog-footer">
-        <el-button
-          @click="
-            itemDialogVisible = false;
-            itemBody = '';
-          "
-          >取 消</el-button
-        >
+        <el-button @click="
+          itemDialogVisible = false;
+        itemBody = '';
+        ">取 消</el-button>
         <el-button type="primary" @click="submitDialogItem">确 定</el-button>
       </div>
     </el-dialog>
@@ -178,7 +119,7 @@ export default {
       //todo: show file context
     },
     submitUpload() {
-      if (this.fileList.length === 0){
+      if (this.fileList.length === 0) {
         alert("没有可上传的文件！");
       }
       for (var i = 0; i < this.fileList.length; i++) {
@@ -225,7 +166,7 @@ export default {
       request_json.POST_File(this.item_post_success, formData, "data");
     },
     item_post_success(bool) {
-      if(bool) {
+      if (bool) {
         this.itemDialogVisible = false;
         alert(this.itemResource + this.itemKey + "上传成功！");
         this.itemResource = '';
