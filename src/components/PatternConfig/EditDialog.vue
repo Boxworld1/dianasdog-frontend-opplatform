@@ -35,11 +35,15 @@ export default {
     },
     cancelEdit: {
       type: Function,
-      default: () => {},
+      default: () => {
+        return () => { };
+      },
     },
     editpattern: {
       type: Function,
-      default: () => {},
+      default: () => {
+        return () => { };
+      },
     },
   },
   data() {

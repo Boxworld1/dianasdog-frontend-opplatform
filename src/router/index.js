@@ -6,6 +6,7 @@ import PatternConfig from '../views/PatternConfig.vue'
 import WScopy from '../views/WScopy'
 import DataManagement from '../views/DataManagement.vue'
 import DictManagement from '../views/DictManagement.vue'
+import UserManagement from '../views/UserManagement.vue'
 import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
@@ -41,6 +42,12 @@ const routes = [
         path: '/managedict',
         name: 'DictManagement',
         component: DictManagement
+      },
+      {
+        //用户管理
+        path: '/usermanage',
+        name: 'UserManagement',
+        component: UserManagement
       }
 
     ]

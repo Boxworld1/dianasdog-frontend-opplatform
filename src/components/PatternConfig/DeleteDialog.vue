@@ -56,11 +56,15 @@ export default {
     },
     cancelDelete: {
       type: Function,
-      default: () => {},
+      default: () => {
+        return () => {};
+      },
     },
     deletepattern: {
       type: Function,
-      default: () => {},
+      default: () => {
+        return () => {};
+      },
     },
   },
   data() {

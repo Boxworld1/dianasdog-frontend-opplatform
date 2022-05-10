@@ -34,7 +34,10 @@ export default {
     },
     get_options:{
       type: Function,
-      default: () => {}
+      default: ()=>{
+        return ()=>{
+        }
+      }
     }
   },
   data() {
