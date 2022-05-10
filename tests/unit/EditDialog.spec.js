@@ -1,15 +1,15 @@
-// import { shallowMount } from '@vue/test-utils'
-// import EditDialog from '@/components/PatternConfig/EditDialog.vue'
+import { shallowMount } from '@vue/test-utils'
+import EditDialog from '@/components/PatternConfig/EditDialog.vue'
 
-// describe('EditDialog.vue', () => {
+describe('EditDialog.vue', () => {
 
-//   it('check default value', () => {
-//     const props = shallowMount(EditDialog).props()
-//     expect(props.dialogVisible).toBe(true)
-//     expect(props.target.length).toBe(0)
-//     expect(props.cancelEdit).toBeDefined()
-//     expect(props.editpattern).toBeDefined()
-//   })
+  it('check default value', () => {
+    const props = shallowMount(EditDialog).props()
+    expect(props.dialogVisible).toBe(true)
+    expect(props.target.length).toBe(0)
+    expect(props.cancelEdit).toBeDefined()
+    expect(props.editpattern).toBeDefined()
+  })
 
 //   it('renders props.msg when passed', () => {
 //     const wrapper = shallowMount(EditDialog, {
@@ -43,4 +43,4 @@
 //     wrapper.vm.handleInputConfirm()
 //     wrapper.vm.$options.watch.dialogVisible.call(wrapper.vm)
 //   })
-// })
+})
