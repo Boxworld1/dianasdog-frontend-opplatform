@@ -2,65 +2,30 @@
   <div>
     <el-form ref="form" label-width="80px">
       <el-form-item label="配置目标">
-        <el-select
-          v-model="target"
-          placeholder="请选择配置目标"
-          style="margin-right: 45px"
-        >
-          <el-option
-            v-for="(resource, index) in resourceList"
-            :key="index"
-            :label="resource"
-            :value="resource"
-          >
+        <el-select v-model="target" placeholder="请选择配置目标" style="margin-right: 45px">
+          <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
           </el-option>
         </el-select>
-
-        <el-button
-          style="display: inline-block; margin-right: 15px"
-          v-on:click="postDialog.dialogVisible = true"
-        >
+        <el-button style="display: inline-block; margin-right: 15px" v-on:click="postDialog.dialogVisible = true">
           <i class="el-icon-upload">upload</i>
         </el-button>
-        <el-button
-          style="display: inline-block; margin-right: 15px"
-          v-on:click="deleteDialog.dialogVisible = true"
-        >
+        <el-button style="display: inline-block; margin-right: 15px" v-on:click="deleteDialog.dialogVisible = true">
           <i class="el-icon-delete">delete</i>
         </el-button>
       </el-form-item>
       <el-form-item label="模板列表">
         <div id="pattern-list">
-          <PatternBlock
-            v-for="(pattern, index) in patternList"
-            :rawpattern="pattern"
-            :key="index"
-            v-bind:edit="edit"
-            v-bind:deletepattern="deletepattern"
-          />
+          <PatternBlock v-for="(pattern, index) in patternList" :rawpattern="pattern" :key="index" v-bind:edit="edit"
+            v-bind:deletepattern="deletepattern" />
         </div>
       </el-form-item>
     </el-form>
-    <PostDialog
-      :dialogVisible="postDialog.dialogVisible"
-      :target="target"
-      v-bind:cancelPost="cancelPost"
-      v-bind:postpattern="postpattern"
-    />
-    <DeleteDialog
-      :dialogVisible="deleteDialog.dialogVisible"
-      :target="target"
-      :patternList="patternList"
-      v-bind:cancelDelete="cancelDelete"
-      v-bind:deletepattern="deletepattern"
-    />
-    <EditDialog
-      :dialogVisible="editDialog.dialogVisible"
-      :target="target"
-      :rawpattern="curpattern"
-      v-bind:cancelEdit="cancelEdit"
-      v-bind:editpattern="editpattern"
-    />
+    <PostDialog :dialogVisible="postDialog.dialogVisible" :target="target" v-bind:cancelPost="cancelPost"
+      v-bind:postpattern="postpattern" />
+    <DeleteDialog :dialogVisible="deleteDialog.dialogVisible" :target="target" :patternList="patternList"
+      v-bind:cancelDelete="cancelDelete" v-bind:deletepattern="deletepattern" />
+    <EditDialog :dialogVisible="editDialog.dialogVisible" :target="target" :rawpattern="curpattern"
+      :backflag="editDialog.backflag" v-bind:cancelEdit="cancelEdit" v-bind:editpattern="editpattern" />
   </div>
 </template>
 
@@ -89,9 +54,11 @@ export default {
       },
       editDialog: {
         dialogVisible: false,
+        backflag: true,
       },
       target: "",
       curpattern: "",
+      checkValue: false,
       resourceList: [],
       patternList: [],
     };
@@ -143,12 +110,7 @@ export default {
       this.editDialog.dialogVisible = false;
     },
     check(bool) {
-      if (!bool) {
-        this.$message({
-          message: "编辑失败",
-          type: "error",
-        });
-      }
+      this.checkValue = bool
     },
     read_pattern(param) {
       this.patternList = param.data;
@@ -161,12 +123,7 @@ export default {
       this.editDialog.dialogVisible = true;
     },
     getpattern() {
-      if (this.target === "") {
-        this.$message({
-          message: "请选择配置目标",
-          type: "warning",
-        });
-      } else {
+      if (this.target != "") {
         var msg = {
           resource: this.target,
           type: "pattern",
@@ -192,17 +149,26 @@ export default {
       };
       request_json.POST(this.delete_success, msg, "/pattern");
     },
-    editpattern(oldpattern, newpattern) {
+    async editpattern(type, Taglist, curTags) {
       var msg = {
-        type: "pattern",
+        type: type,
         resource: this.target,
-        data: [oldpattern],
+        data: [Taglist.join('+')],
         operation: "delete",
       };
-      request_json.POST(this.check, msg, "/pattern");
-      msg.data = [newpattern];
-      msg.operation = "insert";
-      request_json.POST(this.edit_success, msg, "/pattern");
+      await request_json.POST(this.check, msg, "/pattern").then(() => {
+        if (!this.checkValue) {
+          this.$message({
+            message: "编辑失败",
+            type: "error",
+          });
+        } else {
+          msg.data = [curTags.join('+')];
+          msg.operation = "insert";
+          request_json.POST(this.edit_success, msg, "/pattern");
+        }
+
+      })
     },
     cancelPost() {
       this.postDialog.dialogVisible = false;
@@ -211,6 +177,7 @@ export default {
       this.deleteDialog.dialogVisible = false;
     },
     cancelEdit() {
+      this.editDialog.backflag = !this.editDialog.backflag;
       this.editDialog.dialogVisible = false;
     },
   },

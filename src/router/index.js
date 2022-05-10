@@ -5,8 +5,9 @@ import LoginPage from '../views/LoginPage.vue'
 import PatternConfig from '../views/PatternConfig.vue'
 import WScopy from '../views/WScopy'
 import DataManagement from '../views/DataManagement.vue'
-import NotFound from '../views/NotFound.vue'
+import DictManagement from '../views/DictManagement.vue'
 import UserManagement from '../views/UserManagement.vue'
+import NotFound from '../views/NotFound.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,13 +16,7 @@ const routes = [
     path: '/home',
     name: 'home',
     component: HomeView,
-    children:[
-      {
-        //模版配置
-        path: '/pattern',
-        name: 'PatternConfig',
-        component: PatternConfig
-      },
+    children: [
       {
         //写入行为描述
         path: '/writesetting',
@@ -29,10 +24,23 @@ const routes = [
         component: WScopy
       },
       {
+        //模版配置
+        path: '/configpattern',
+        name: 'PatternConfig',
+        component: PatternConfig
+      },
+
+      {
         //数据管理
-        path: '/datamanage',
+        path: '/managedata',
         name: 'DataManagement',
         component: DataManagement
+      },
+      {
+        //词表管理
+        path: '/managedict',
+        name: 'DictManagement',
+        component: DictManagement
       },
       {
         //用户管理
@@ -40,6 +48,7 @@ const routes = [
         name: 'UserManagement',
         component: UserManagement
       }
+
     ]
   },
   {

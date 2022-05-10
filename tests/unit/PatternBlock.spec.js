@@ -10,14 +10,14 @@ describe('PatternBlock.vue', () => {
     expect(props.deletepattern).toBeDefined()
   })
 
-  it('renders props.msg when passed', () => {
-    const wrapper = shallowMount(PatternBlock, {
-      props: {
-        rawpattern: "hi"
-      }
-    })
-    expect(wrapper.exists()).toBe(true)
-    wrapper.vm.handleSelect("edit")
-    wrapper.vm.handleSelect("nothing")
-  })
+  //   it('renders props.msg when passed', () => {
+  //     const wrapper = shallowMount(PatternBlock, {
+  //       props: {
+  //         rawpattern: "hi"
+  //       }
+  //     })
+  //     expect(wrapper.exists()).toBe(true)
+  //     wrapper.vm.handleSelect("edit")
+  //     wrapper.vm.handleSelect("nothing")
+  //   })
 })

@@ -1,22 +1,12 @@
 <template>
   <div>
-    <el-form
-      ref="form"
-      :rules="rules"
-      :model="form"
-      class="login-box"
-      @keyup.enter.native="onSubmit('form')"
-    >
+    <el-form ref="form" :rules="rules" :model="form" class="login-box" @keyup.enter.native="onSubmit('form')">
       <h3 class="login-title">欢迎登录</h3>
       <el-form-item label="用户名" prop="name">
         <el-input type="text" placeholder="请输入用户名" v-model="form.name" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input
-          type="password"
-          placeholder="请输入密码"
-          v-model="form.password"
-        />
+        <el-input type="password" placeholder="请输入密码" v-model="form.password" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit('form')">登录</el-button>
@@ -48,46 +38,31 @@ export default {
   },
   methods: {
     back_check(val) {
-      if (val === false){
+      if (val === false) {
         this.passwdValid = false;
       } else {
-        bcrypt.compare(this.form.password, val, (err, res) => {
-            this.passwdValid = res;
-        });
+        this.passwdValid = bcrypt.compareSync(this.form.password, val)
       }
     },
-    // check() {
-    //   var json = this.$store.getters.getAdmin;
-    //   for (var p in json){
-    //     if (p  === this.form.name) {
-    //       if (json[p] === this.form.password)
-    //         return true;
-    //       else return false;
-    //     }
-    //   }
-    //   return false;
-    // },
-    async check_pass() {
+    async onSubmit(form) {
       var user = {
         "username": this.form.name,
       }
-      request_json.POST_User(this.back_check, user);
-    },
-    onSubmit(form) {
-      this.check_pass();
-      this.$refs[form].validate((valid) => {
-        if (valid && this.passwdValid) {
-          sessionStorage.setItem("isLogin", "true");
-          this.$store.dispatch("asyncUpdateUser", { name: this.form.name });
-          this.$router.push({ name: "home" });
-        } else {
-          this.$message({
-            message: "用户名或密码错误",
-            type: "warning",
-          });
-          return false;
-        }
-      });
+      await request_json.POST_User(this.back_check, user).then(() => {
+        this.$refs[form].validate((valid) => {
+          if (valid && this.passwdValid) {
+            sessionStorage.setItem("isLogin", "true");
+            this.$store.dispatch("asyncUpdateUser", { name: this.form.name });
+            this.$router.push({ name: "home" });
+          } else {
+            this.$message({
+              message: "用户名或密码错误",
+              type: "warning",
+            });
+            return false;
+          }
+        });
+      })
     },
   },
 };
@@ -102,6 +77,7 @@ export default {
   border-radius: 5px;
   box-shadow: 0 0 30px #dcdfe6;
 }
+
 .login-title {
   text-align: center;
 }

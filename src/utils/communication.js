@@ -14,7 +14,7 @@ const request_json = {
       })
   },
   GET_WITH_PARAMS: (get_function, url, params) => {
-    axios.get(url, {params: params})
+    axios.get(url, { params: params })
       .then((res) => {
         get_function(res.data)
       })
@@ -22,8 +22,8 @@ const request_json = {
         console.log(error)
       })
   },
-  POST: (post_function, new_message, url) => {
-    axios.post(url, JSON.stringify(new_message))
+  POST: async (post_function, new_message, url) => {
+    await axios.post(url, JSON.stringify(new_message))
       .then((res) => {
         if (res.status === 201 || res.status === 200) {
           post_function(true)
@@ -50,8 +50,8 @@ const request_json = {
         console.log(error)
       })
   },
-  POST_User: (post_function, new_message) => {
-    axios.post('/login', JSON.stringify(new_message))
+  POST_User: async (post_function, new_message) => {
+    await axios.post('/login', JSON.stringify(new_message))
       .then((res) => {
         if (res.status === 201 || res.status === 200) {
           let pass = res.data.password
@@ -66,7 +66,8 @@ const request_json = {
   POST_File: (post_function, new_message, url) => {
     let config = {
       headers: {
-        "Content-Type": 'multipart/form-data' }
+        "Content-Type": 'multipart/form-data'
+      }
     }
     console.log(new_message)
     axios.post(url, new_message, config)

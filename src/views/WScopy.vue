@@ -1,10 +1,6 @@
 <template>
   <div>
-    <resource-select
-      :options="options"
-      @changeValue="changeValue"
-      :get_options="get_options"
-    />
+    <resource-select :options="options" @changeValue="changeValue" :get_options="get_options" />
     <div>
       <el-table :data="labels" style="width: 100%" height="600">
         <el-table-column fixed prop="name" label="标签名字" width="200" />
@@ -44,24 +40,15 @@
 
         <el-table-column label="操作" align="right">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index)"
-              >Delete</el-button
-            >
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="foot">
       <template>
-        <el-button type="primary" @click="dialogLabelVisible = true"
-          >增加标签</el-button
-        >
-        <el-button type="primary" @click="dialogResourceVisible = true"
-          >增加特性卡片</el-button
-        >
+        <el-button type="primary" @click="dialogLabelVisible = true">增加标签</el-button>
+        <el-button type="primary" @click="dialogResourceVisible = true">增加特性卡片</el-button>
         <el-button type="danger" @click="submitChange">提交更改</el-button>
       </template>
     </div>
@@ -105,9 +92,7 @@
       <el-input v-model="newResourceName" autocomplete="off" />
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogResourceVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitDialogResource"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitDialogResource">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -203,8 +188,8 @@ export default {
         };
       }
       var setting_file = {
-          resource: this.value_option,
-          write_setting: dict,
+        resource: this.value_option,
+        write_setting: dict,
       };
       var formData = new FormData();
       formData.append("resource", this.value_option);
