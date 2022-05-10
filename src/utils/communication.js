@@ -50,6 +50,21 @@ const request_json = {
         console.log(error)
       })
   },
+  POST_User: (post_function, new_message) => {
+    axios.post('/login', JSON.stringify(new_message))
+      .then((res) => {
+        console.log(res)
+        if (res.status === 201 || res.status === 200) {
+          let level = res.data.level
+          console.log(level)
+          post_function(level)
+        }
+      })
+      .catch(function (error) {
+        post_function(false)
+        console.log(error)
+      })
+  },
   POST_User: async(post_function, new_message) => {
     await axios.post('/login', JSON.stringify(new_message))
       .then((res) => {

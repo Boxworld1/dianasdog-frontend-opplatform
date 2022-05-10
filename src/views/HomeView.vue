@@ -34,7 +34,12 @@
               <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>{{ $store.getters.getUser.name }}</span>
+          <span style="margin-right: 15px">{{ $store.getters.getUser.name }}</span>
+          <span id="usermanage" hidden>
+            <router-link to="/usermanage" class="router-link-active"
+                >用户管理</router-link
+              >
+          </span>
         </el-header>
 
         <el-main>
@@ -46,14 +51,46 @@
 </template>
 
 <script>
+import request_json from '../utils/communication'
+import user from '../store/modules/user.js'
 export default {
   name: "HomeView",
   components: {},
-  methods: {
-    logout() {
-      this.$router.push('/logout');
+    
+  data () {
+    var level = 0;
+    var username = "";
+    return{
+      level,
+      username,
     }
   },
+  methods:{
+    logout() {
+      this.$router.push('/logout');
+    },
+    setLevel(val)
+    {
+      console.log(val);
+      this.level = val;
+      console.log(this.level);
+      if(this.level == 3)
+          {
+            document.getElementById("usermanage").removeAttribute("hidden");
+          }
+    }
+  },
+  mounted () {
+    console.log(this.level);
+    this.username = user.state.user.name;
+        var user1 = {
+            "username": this.username,
+          }
+        request_json.POST_Userlevel(this.setLevel, user1);
+        console.log(this.level)
+
+    
+  }
 };
 </script>
 
