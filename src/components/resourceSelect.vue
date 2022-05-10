@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-select
-        v-model="value"
+        v-model="value_"
         filterable
         placeholder="请选择特型卡名称"
         @visible-change="get_options"
@@ -41,12 +41,16 @@ export default {
   },
   data() {
     return {
+      value_: ''
     }
   },
   watch: {
-    value: {
-      handler(value) {
-        this.$emit('changeValue', value)
+    value(newVal) {
+      this.value_ = newVal;
+    },
+    value_: {
+      handler(newval) {
+        this.$emit('changeValue', newval);
       }
     }
   }
