@@ -1,25 +1,27 @@
 <template>
   <div>
-    <el-form ref="form" label-width="80px">
-      <el-form-item label="配置目标">
-        <el-select v-model="target" placeholder="请选择配置目标" style="margin-right: 45px">
+    <el-row>
+      <el-col :span="6" >特型卡名称：</el-col>
+      <el-col :span="12">
+        <el-select v-model="target" placeholder="请选择特型卡名称" style="margin-right: 45px">
           <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
           </el-option>
         </el-select>
-        <el-button style="display: inline-block; margin-right: 15px" v-on:click="postDialog.dialogVisible = true">
-          <i class="el-icon-upload">upload</i>
-        </el-button>
-        <el-button style="display: inline-block; margin-right: 15px" v-on:click="deleteDialog.dialogVisible = true">
-          <i class="el-icon-delete">delete</i>
-        </el-button>
-      </el-form-item>
-      <el-form-item label="模板列表">
-        <div id="pattern-list">
+      </el-col>
+    </el-row>
+        <div id="pattern-list" >
           <PatternBlock v-for="(pattern, index) in patternList" :rawpattern="pattern" :key="index" v-bind:edit="edit"
             v-bind:deletepattern="deletepattern" />
         </div>
-      </el-form-item>
-    </el-form>
+        <el-row style="margin-top:20px;">
+            <el-button type="primary" style="display: inline-block; margin-right: 15px" v-on:click="postDialog.dialogVisible = true">
+          <i class="el-icon-upload">增加模板</i>
+        </el-button>
+        <el-button type="warning" style="display: inline-block; margin-right: 15px" v-on:click="deleteDialog.dialogVisible = true">
+          <i class="el-icon-delete">批量删除</i>
+        </el-button>
+        </el-row>
+
     <PostDialog :dialogVisible="postDialog.dialogVisible" :target="target" v-bind:cancelPost="cancelPost"
       v-bind:postpattern="postpattern" />
     <DeleteDialog :dialogVisible="deleteDialog.dialogVisible" :target="target" :patternList="patternList"

@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #b0c7e7; border-radius: 4px; margin: 10px ">
+  <el-row style="background: #b0c7e7; border-radius: 4px; margin: 10px ">
     <span style="text-align: left"><i class="el-icon-s-promotion" />{{ rawpattern }}</span>
     <span>
       <!-- <el-button type="primary" icon="el-icon-edit" circle v-on:click="edit(rawpattern)"></el-button>
@@ -9,7 +9,7 @@
       <el-button style="float: right" type="primary" v-on:click="edit(rawpattern)"><i class="el-icon-edit" />Edit
       </el-button>
     </span>
-  </div>
+  </el-row>
 </template>
 
 <script>

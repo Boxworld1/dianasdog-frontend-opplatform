@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-row>
-      <el-col :span="12">特性卡名称：</el-col>
+    <el-row  style="margin-bottom: 10px;">
+      <el-col :span="6">特型卡名称：</el-col>
       <el-col :span="12">
     <resource-select
       :options="options"
@@ -12,7 +12,7 @@
       </el-col>
     </el-row>
     <div>
-      <el-table :data="labels" style="width: 100%" height="600">
+      <el-table :data="labels" style="width: 100%" height="500">
         <el-table-column fixed prop="name" label="标签名字" width="200" />
         <el-table-column prop="es" label="是否插入es">
           <template slot-scope="scope">
@@ -97,8 +97,8 @@
         <el-button type="primary" @click="submitDialogLabel">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="增加特性卡片" :visible.sync="dialogResourceVisible">
-      特性卡片名字：
+    <el-dialog title="增加特型卡片" :visible.sync="dialogResourceVisible">
+      特型卡片名字：
       <el-input v-model="newResourceName" autocomplete="off" />
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogResourceVisible = false">取 消</el-button>
@@ -120,7 +120,7 @@ export default {
     return {
       options: [],
       value_option: "",
-      labels: [{ name: "car", es: true, redis: true, sql: false, pic: true }],
+      labels: [],
       dialogLabelVisible: false,
       dialogResourceVisible: false,
       //formLabel用于新增label
@@ -137,16 +137,14 @@ export default {
   methods: {
     get_options(bool) {
       if (bool) {
-        var url = "/category";
-        request_json.GET(this.set_options, url);
+        request_json.GET(this.set_options, '/category');
         console.log("aaa");
       } else {
         //do: set msg and url
-        var url = "/setting";
         var params = {
           resource: this.value_option,
         };
-        request_json.GET_WITH_PARAMS(this.set_labels, url, params);
+        request_json.GET_WITH_PARAMS(this.set_labels, '/setting', params);
 
       }
     },
@@ -229,22 +227,6 @@ export default {
         this.$message({message: "更改失败！", type: "error"});
       }
     },
-  },
-  watch: {
-    // value_option: {
-    //   handler(value) {
-    //     console.log(value);
-    //     if (value == this.newResourceName) {
-    //       return;
-    //     }
-    //     //do: set msg and url
-    //     var url = "/setting";
-    //     var params = {
-    //       resource: value,
-    //     };
-    //     request_json.GET_WITH_PARAMS(this.set_labels, url, params);
-    //   },
-    // },
   },
 };
 </script>

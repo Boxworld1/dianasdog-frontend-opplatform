@@ -4,7 +4,7 @@
       <el-select
         v-model="value"
         filterable
-        placeholder="请选择特性卡名称"
+        placeholder="请选择特型卡名称"
         @visible-change="get_options"
       >
         <el-option

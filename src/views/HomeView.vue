@@ -3,7 +3,7 @@
     <el-container>
       <el-aside width="200px">
         <el-menu
-        class="el-munu-vertical-demo"
+        class="el-menu-vertical-demo"
         text-color="#1b3554"
         active-text-color="#409eff"
         router>
@@ -107,10 +107,11 @@ export default {
 
 .el-aside {
   color: #333;
+
 }
 
-.el-munu-vertical-demo {
-  background-color: #1b3554;
+.el-menu-vertical-demo {
+  background-color: #b3c0d1;
   text-decoration-color: #fff;
 }
 
