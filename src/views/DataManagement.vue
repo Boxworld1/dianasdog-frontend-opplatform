@@ -157,9 +157,18 @@ export default {
     },
     post_success(bool) {
       if (bool) {
-        alert("上传成功");
+        this.$message({message: "上传文件成功",
+        type: "success"});
       } else {
-        alert("上传失败");
+        this.$message({message: "上传文件失败", type: "error"});
+      }
+    },
+    delete_success(bool) {
+      if (bool) {
+        this.$message({message: "删除文件成功",
+        type: "success"});
+      } else {
+        this.$message({message: "删除文件失败", type: "error"});
       }
     },
     fileIncrease(file) {
@@ -177,7 +186,8 @@ export default {
     },
     submitUpload() {
       if (this.fileList.length === 0) {
-        alert("没有可上传的文件！");
+        this.$message({message: "没有可上传的文件！",
+        type: "warning"});
       }
       for (var i = 0; i < this.fileList.length; i++) {
         var formData = new FormData();
@@ -192,14 +202,25 @@ export default {
       this.fileList = [];
     },
     fdelete() {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
       var formData = new FormData();
       formData.append("resource", this.deleteResource);
       formData.append("type", "delete");
       formData.append("filename", this.deleteFile);
 
-      request_json.POST_File(this.post_success, formData, "/data");
+      request_json.POST_File(this.delete_success, formData, "/data");
       this.deleteFile = "";
       this.deleteResource = "";
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     },
     getItemBody(val) {
       this.itemBody = val.data;
@@ -225,13 +246,16 @@ export default {
     item_post_success(bool) {
       if (bool) {
         this.itemDialogVisible = false;
-        alert(this.itemResource + this.itemKey + "上传成功！");
+        this.$message({message: this.itemResource + this.itemKey + "上传成功！",
+        type: "success",
+        });
         this.itemResource = '';
         this.itemKey = '';
         this.itemBody = '';
       }
       else {
-        alert(this.itemResource + this.itemKey + "上传失败！");
+        this.$message({message: this.itemResource + this.itemKey + "上传失败！",
+        type: "error"});
       }
     }
   },

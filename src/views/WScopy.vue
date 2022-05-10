@@ -194,8 +194,12 @@ export default {
       this.newResourceName = "";
     },
     submitChange() {
-      //todo: send this resource and labels to backend
       //构造json
+      this.$confirm('确认修改'+this.value_option+"的写入描述文件？", '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
       var dict = {};
       for (var i in this.labels) {
         dict[this.labels[i].name] = {
@@ -215,12 +219,14 @@ export default {
       request_json.POST_File(this.submit_check, formData, "/setting");
       this.value_option = '';
       this.labels = [];
+        }).catch(() => {
+        });
     },
     submit_check(bool) {
       if (bool) {
-        alert("更改成功！");
+        this.$message({message: "更改成功！", type: "success"});
       } else {
-        alert("更改失败！");
+        this.$message({message: "更改失败！", type: "error"});
       }
     },
   },
