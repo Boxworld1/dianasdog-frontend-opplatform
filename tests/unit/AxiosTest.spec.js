@@ -114,6 +114,50 @@ describe('api POST', () => {
   });
 });
 
+describe('api POST_Userlevel', () => {
+  beforeEach(() => {
+    moxios.install(axios);
+  });
+  afterEach(() => {
+    moxios.uninstall(axios);
+  });
+  const params = {
+    query: "testdata",
+  };
+  const myfun = (data) => {
+    return data;
+  }
+  it('successed with code 200', async () => {
+    moxios.stubRequest('/login', {
+      status: 200,
+      data: {
+        userlevel: '3254'
+      }
+    });
+    await request_json.POST_Userlevel(myfun, params)
+  });
+
+  it('successed with code 201', async () => {
+    moxios.stubRequest('/login', {
+      status: 201,
+      data: {
+        userlevel: '3254'
+      }
+    });
+    await request_json.POST_Userlevel(myfun, params)
+  });
+
+  it('failed with code 400', async () => {
+    moxios.stubRequest('/login', {
+      status: 400,
+      data: {
+        userlevel: '3254'
+      }
+    });
+    await request_json.POST_Userlevel(myfun, params)
+  });
+});
+
 describe('api POST_User', () => {
   beforeEach(() => {
     moxios.install(axios);
@@ -140,7 +184,9 @@ describe('api POST_User', () => {
   it('successed with code 201', async () => {
     moxios.stubRequest('/login', {
       status: 201,
-      data: {password: '3254'}
+      data: {
+        password: '3254'
+      }
     });
     await request_json.POST_User(myfun, params)
   });
@@ -148,7 +194,9 @@ describe('api POST_User', () => {
   it('failed with code 400', async () => {
     moxios.stubRequest('/login', {
       status: 400,
-      data: {password: '3254'}
+      data: {
+        password: '3254'
+      }
     });
     await request_json.POST_User(myfun, params)
   });
