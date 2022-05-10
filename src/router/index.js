@@ -8,7 +8,6 @@ import DataManagement from '../views/DataManagement.vue'
 import DictManagement from '../views/DictManagement.vue'
 import UserManagement from '../views/UserManagement.vue'
 import NotFound from '../views/NotFound.vue'
-import UserManagement from '../views/UserManagement.vue'
 Vue.use(VueRouter)
 
 const routes = [
