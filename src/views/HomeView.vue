@@ -9,21 +9,21 @@
         router>
           <el-menu-item>
             <span slot="title">
-              运营平台
+              特型卡片运营平台
             </span>
             </el-menu-item>
           <el-menu-item-group>
             <el-menu-item index="/configpattern">
-              <i class="el-icon-message"></i>模版配置
+              <i class="el-icon-setting"></i>模版配置
             </el-menu-item>
             <el-menu-item index="/writesetting">
-              <i class="el-icon-message"></i>写入描述
+              <i class="el-icon-document"></i>写入描述
             </el-menu-item>
             <el-menu-item index="/managedata">
-              <i class="el-icon-message"></i>数据管理
+              <i class="el-icon-s-data"></i>数据管理
             </el-menu-item>
             <el-menu-item index="/managedict">
-              <i class="el-icon-message"></i>词表管理
+              <i class="el-icon-menu"></i>词表管理
             </el-menu-item>
           </el-menu-item-group>
         </el-menu>
@@ -32,9 +32,9 @@
       <el-container>
         <el-header style="text-align: right; font-size: 12px">
           <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
+            <i class="el-icon-user" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
+              <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <span style="margin-right: 15px">{{ $store.getters.getUser.name }}</span>
