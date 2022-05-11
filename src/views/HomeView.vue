@@ -26,7 +26,7 @@
             <el-menu-item index="/managedict">
               <i class="el-icon-menu"></i>词表管理
             </el-menu-item>
-            <el-menu-item index="/usermanage">
+            <el-menu-item index="/usermanage" id="usermanage" hidden>
               <i class="el-icon-user"></i>用户管理
             </el-menu-item>
           </el-menu-item-group>
@@ -88,8 +88,6 @@ export default {
     }
     request_json.POST_Userlevel(this.setLevel, user1);
     console.log(this.level)
-
-
   }
 };
 </script>
