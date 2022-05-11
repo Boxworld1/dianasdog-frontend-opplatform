@@ -58,7 +58,7 @@
     <div class="foot">
       <template>
         <el-button type="primary" @click="dialogLabelVisible = true">增加标签</el-button>
-        <el-button type="primary" @click="dialogResourceVisible = true">增加特性卡片</el-button>
+        <el-button type="primary" @click="dialogResourceVisible = true">增加特型卡片</el-button>
         <el-button type="danger" @click="submitChange">提交更改</el-button>
       </template>
     </div>
