@@ -108,7 +108,7 @@ export default {
 
 .el-aside {
   color: #333;
-
+  background-color: #fff;
 }
 
 .el-menu-vertical-demo {
