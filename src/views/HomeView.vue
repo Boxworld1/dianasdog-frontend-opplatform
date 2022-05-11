@@ -1,11 +1,12 @@
 <template>
   <div>
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="200px" style="height:100vh">
         <el-menu
         class="el-menu-vertical-demo"
         text-color="#1b3554"
         active-text-color="#409eff"
+        style="height:100vh"
         router>
           <el-menu-item>
             <span slot="title">
@@ -25,6 +26,9 @@
             <el-menu-item index="/managedict">
               <i class="el-icon-menu"></i>词表管理
             </el-menu-item>
+            <el-menu-item index="/usermanage">
+              <i class="el-icon-user"></i>用户管理
+            </el-menu-item>
           </el-menu-item-group>
         </el-menu>
       </el-aside>
@@ -38,9 +42,6 @@
             </el-dropdown-menu>
           </el-dropdown>
           <span style="margin-right: 15px">{{ $store.getters.getUser.name }}</span>
-          <span id="usermanage" hidden>
-            <router-link to="/usermanage" class="router-link-active">用户管理</router-link>
-          </span>
         </el-header>
 
         <el-main>
@@ -107,7 +108,7 @@ export default {
 
 .el-aside {
   color: #333;
-
+  background-color: #fff;
 }
 
 .el-menu-vertical-demo {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <el-table :data="users" style="width: 100%" height="600">
+      <el-table :data="users" style="width: 100%" height="550">
         <el-table-column fixed prop="name" label="用户名" width="200" />
         <el-table-column prop="password" label="用户密码">
         </el-table-column>
@@ -15,21 +15,11 @@
       </el-table>
     </div>
 
-
-
-
     <div class="foot">
       <template>
         <el-button type="primary" @click="dialogLabelVisible = true">增加用户</el-button>
-
       </template>
     </div>
-
-
-
-
-
-
 
     <el-dialog title="增加用户" :visible.sync="dialogLabelVisible">
       <el-form ref="form" :rules="rules" :model="form" class="login-box" @keyup.enter.native="onSubmit('form')">
