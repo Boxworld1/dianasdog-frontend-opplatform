@@ -84,7 +84,7 @@
     </el-row>
     <el-dialog :title="itemKey" :visible.sync="itemDialogVisible">
       <!-- xuanran -->
-      <el-input type="textarea" v-model="itemBody" :autosize="true" clearable></el-input>
+      <el-input type="textarea" :rows="18" v-model="itemBody"></el-input>
       <div slot="footer" class="dialog-footer">
         <el-button @click="
           itemDialogVisible = false;

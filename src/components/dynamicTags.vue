@@ -9,10 +9,8 @@
       </el-input>
       <el-button class="button-new-tag" size="small" @click="showInput">+ New Word</el-button>
     </div>
-    <span slot="footer">
       <el-button v-on:click="cancelchange()">取 消</el-button>
       <el-button type="primary" v-on:click="submitchange(type, Taglist, curTags)">确 定</el-button>
-    </span>
   </div>
 </template>
 
