@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <el-row>
-      <el-col :span="6" >特型卡名称：</el-col>
+<div>
+      <el-row>
+      <el-col :span="6">特型卡名称：</el-col>
       <el-col :span="12">
         <el-select v-model="target" placeholder="请选择特型卡名称" style="margin-right: 45px">
           <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
@@ -9,18 +9,51 @@
         </el-select>
       </el-col>
     </el-row>
-        <div id="pattern-list" >
+    <div id="pattern-list">
+      <el-table :data="new_patternList" style="width: 100%" height="600">
+        <el-table-column fixed prop="data" label="模板内容" width="200" />
+        <el-table-column label="操作" align="right">
+          <template slot-scope="scope">
+            <el-button type="danger" v-on:click="deletepattern([this.new_patternList[scope.$index]])"><i
+                class="el-icon-delete" />删除</el-button>
+            <el-button type="primary" v-on:click="edit(this.new_patternList[scope.$index])"><i class="el-icon-edit" />编辑
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <el-row style="margin-top:20px;">
+      <el-button type="primary" style="display: inline-block; margin-right: 15px"
+        v-on:click="postDialog.dialogVisible = true">
+        <i class="el-icon-upload">增加模板</i>
+      </el-button>
+      <el-button type="warning" style="display: inline-block; margin-right: 15px"
+        v-on:click="deleteDialog.dialogVisible = true">
+        <i class="el-icon-delete">批量删除</i>
+      </el-button>
+    </el-row>
+
+
+    <!-- <el-form ref="form" label-width="80px">
+      <el-form-item label="配置目标">
+        <el-select v-model="target" placeholder="请选择配置目标" style="margin-right: 45px">
+          <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
+          </el-option>
+        </el-select>
+        <el-button style="display: inline-block; margin-right: 15px" v-on:click="postDialog.dialogVisible = true">
+          <i class="el-icon-upload">上传模板</i>
+        </el-button>
+        <el-button style="display: inline-block; margin-right: 15px" v-on:click="deleteDialog.dialogVisible = true">
+          <i class="el-icon-delete">批量删除</i>
+        </el-button>
+      </el-form-item>
+      <el-form-item label="模板列表">
+        <div id="pattern-list">
           <PatternBlock v-for="(pattern, index) in patternList" :rawpattern="pattern" :key="index" v-bind:edit="edit"
             v-bind:deletepattern="deletepattern" />
         </div>
-        <el-row style="margin-top:20px;">
-            <el-button type="primary" style="display: inline-block; margin-right: 15px" v-on:click="postDialog.dialogVisible = true">
-          <i class="el-icon-upload">增加模板</i>
-        </el-button>
-        <el-button type="warning" style="display: inline-block; margin-right: 15px" v-on:click="deleteDialog.dialogVisible = true">
-          <i class="el-icon-delete">批量删除</i>
-        </el-button>
-        </el-row>
+      </el-form-item>
+    </el-form> -->
 
     <PostDialog :dialogVisible="postDialog.dialogVisible" :target="target" v-bind:cancelPost="cancelPost"
       v-bind:postpattern="postpattern" />
@@ -63,6 +96,7 @@ export default {
       checkValue: false,
       resourceList: [],
       patternList: [],
+      new_patternList:[],
     };
   },
   methods: {
@@ -187,6 +221,12 @@ export default {
     target() {
       this.getpattern();
     },
+    patternList(curval){
+      this.new_patternList = []
+      for(var i in curval){
+        this.new_patternList.push({data:curval[i]})
+      }
+    }
   },
   created() {
     request_json.GET(this.read_resource, "/category");

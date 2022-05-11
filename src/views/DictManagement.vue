@@ -1,17 +1,17 @@
 <template>
   <el-form>
-    <el-form-item label="Resource">
+    <el-form-item label="配置目标">
       <el-select v-model="target" placeholder="请选择配置目标" style="margin-right: 45px">
         <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
         </el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="Intent">
-      <dynamicTags :type="'intent'" :Taglist="intentList" :backflag="backflag" :cancelchange="cancelchange"
+      <dynamicTags v-if="target!=''" :type="'intent'" :Taglist="intentList" :backflag="backflag" :cancelchange="cancelchange"
         :submitchange="submitchange" />
     </el-form-item>
     <el-form-item label="Garbage">
-      <dynamicTags :type="'garbage'" :Taglist="garbageList" :backflag="backflag" :cancelchange="cancelchange"
+      <dynamicTags v-if="target!=''" :type="'garbage'" :Taglist="garbageList" :backflag="backflag" :cancelchange="cancelchange"
         :submitchange="submitchange" />
     </el-form-item>
   </el-form>
