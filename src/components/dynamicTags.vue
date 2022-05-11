@@ -8,15 +8,16 @@
   margin-left: 10px;
   vertical-align: bottom;" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
     </el-input>
-    <el-button class="button-new-tag" size="medium" @click="showInput" style="margin-left: 10px;
+    <el-button v-else class="button-new-tag" size="medium" @click="showInput" style="margin-left: 10px;
   height: 32px;
   line-height: 30px;
   padding-top: 0;
   padding-bottom: 0;">+ New Word</el-button>
     <el-row style="margin-top:10px">
-      <el-button size="medium" style="margin-left: 10px;" v-on:click="cancelchange()">取 消</el-button>
-      <el-button type="primary" size="medium" style="margin-left: 10px;" :disabled="Taglist.length == 0&&curTags.length == 0"
-        v-on:click="submitchange(type, Taglist, curTags)">确 定</el-button>
+      <el-button size="medium" style="margin-left: 15px;" v-on:click="cancelchange()">取 消</el-button>
+      <el-button type="primary" size="medium" style="margin-left: 15px;"
+        :disabled="Taglist.toString() == curTags.toString() && type!='pattern'" v-on:click="submitchange(type, Taglist, curTags)">确 定
+      </el-button>
     </el-row>
   </div>
 </template>

@@ -1,5 +1,29 @@
 <template>
-  <el-form>
+<div>
+  <el-row class="el-row-style">
+      <el-col :span="6">特型卡名称</el-col>
+      <el-col :span="12">
+        <el-select v-model="target" placeholder="请选择特型卡名称" style="margin-right: 45px">
+          <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
+          </el-option>
+        </el-select>
+      </el-col>
+    </el-row>
+    <el-row class="el-row-style">
+      <el-col :span="6">Intent</el-col>
+      <el-col :span="12">
+        <dynamicTags v-if="target!=''" :type="'intent'" :Taglist="intentList" :backflag="backflag" :cancelchange="cancelchange"
+        :submitchange="submitchange" />
+      </el-col>
+    </el-row>
+    <el-row class="el-row-style">
+      <el-col :span="6">Garbage</el-col>
+      <el-col :span="12">
+        <dynamicTags v-if="target!=''" :type="'garbage'" :Taglist="garbageList" :backflag="backflag" :cancelchange="cancelchange"
+        :submitchange="submitchange" />
+      </el-col>
+    </el-row>
+  <!-- <el-form>
     <el-form-item label="特型卡名称">
       <el-select v-model="target" placeholder="请选择特型卡名称" style="margin-right: 45px">
         <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
@@ -14,7 +38,8 @@
       <dynamicTags v-if="target!=''" :type="'garbage'" :Taglist="garbageList" :backflag="backflag" :cancelchange="cancelchange"
         :submitchange="submitchange" />
     </el-form-item>
-  </el-form>
+  </el-form> -->
+  </div>
 </template>
 
 <script>
@@ -101,3 +126,12 @@ export default {
   },
 };
 </script>
+<style>
+.el-row-style {
+  color: #333;
+  line-height: 60px;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  padding: 20px;
+}
+</style>
