@@ -4,7 +4,7 @@
     <el-form label-width="80px" @submit.native.prevent>
       <el-form-item label="Resource">{{ target }}</el-form-item>
       <el-form-item label="Pattern">
-        <el-input type="text" placeholder="请输入模板内容" v-model="rawpattern" style="margin-left: 10px;width:60%"></el-input>
+        <el-input type="text" placeholder="不同模板用&隔开" v-model="rawpattern" style="margin-left: 10px;width:60%"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -45,6 +45,7 @@ export default {
   watch: {
     dialogVisible(curval) {
       this.visible = curval;
+      this.rawpattern = ""
     },
   },
 };

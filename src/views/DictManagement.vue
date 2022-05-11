@@ -1,7 +1,7 @@
 <template>
   <el-form>
-    <el-form-item label="配置目标">
-      <el-select v-model="target" placeholder="请选择配置目标" style="margin-right: 45px">
+    <el-form-item label="特型卡名称">
+      <el-select v-model="target" placeholder="请选择特型卡名称" style="margin-right: 45px">
         <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
         </el-option>
       </el-select>
