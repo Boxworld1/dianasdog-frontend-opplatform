@@ -46,6 +46,7 @@
 <script>
 import request_json from "../utils/communication";
 import bcrypt from 'bcryptjs';
+import user from '../store/modules/user.js';
 export default {
   name: "UserManagement",
   data() {
@@ -110,6 +111,11 @@ export default {
     //do: convert val to list items
     handleDelete(index) {
       console.log(index);
+      if(this.users[index].name == user.state.user.name)
+      {
+        alert("您正在登录状态！");
+        return;
+      }
       request_json.POST(this.delete, { username: this.users[index].name }, "/userdelete");
       this.users.splice(index, 1);
       console.log(index);
