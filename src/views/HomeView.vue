@@ -2,25 +2,28 @@
   <div>
     <el-container>
       <el-aside width="200px">
-        <el-menu class="el-munu-vertical-demo" background-color="#1b3554" text-color="#fff" active-text-color="#409eff"
-          router>
+        <el-menu
+        class="el-menu-vertical-demo"
+        text-color="#1b3554"
+        active-text-color="#409eff"
+        router>
           <el-menu-item>
             <span slot="title">
-              运营平台
+              特型卡片运营平台
             </span>
-          </el-menu-item>
+            </el-menu-item>
           <el-menu-item-group>
             <el-menu-item index="/configpattern">
-              <i class="el-icon-message"></i>模版配置
+              <i class="el-icon-setting"></i>模版配置
             </el-menu-item>
             <el-menu-item index="/writesetting">
-              <i class="el-icon-message"></i>写入描述
+              <i class="el-icon-document"></i>写入描述
             </el-menu-item>
             <el-menu-item index="/managedata">
-              <i class="el-icon-message"></i>数据管理
+              <i class="el-icon-s-data"></i>数据管理
             </el-menu-item>
             <el-menu-item index="/managedict">
-              <i class="el-icon-message"></i>词表管理
+              <i class="el-icon-menu"></i>词表管理
             </el-menu-item>
           </el-menu-item-group>
         </el-menu>
@@ -29,9 +32,9 @@
       <el-container>
         <el-header style="text-align: right; font-size: 12px">
           <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
+            <i class="el-icon-user" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
+              <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <span style="margin-right: 15px">{{ $store.getters.getUser.name }}</span>
@@ -92,12 +95,10 @@ export default {
 
 <style>
 .platform-title {
-  background-color: #b3c0d1;
   color: #333;
   line-height: 60px;
 
 }
-
 .el-header {
   background-color: #b3c0d1;
   color: #333;
@@ -106,10 +107,11 @@ export default {
 
 .el-aside {
   color: #333;
+
 }
 
-.el-munu-vertical-demo {
-  background-color: #1b3554;
+.el-menu-vertical-demo {
+  background-color: #b3c0d1;
   text-decoration-color: #fff;
 }
 

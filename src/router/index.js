@@ -16,7 +16,7 @@ const routes = [
     path: '/home',
     name: 'home',
     component: HomeView,
-    children: [
+    children:[
       {
         //写入行为描述
         path: '/writesetting',
@@ -53,7 +53,7 @@ const routes = [
   },
   {
     //登录页
-    path: '/login',
+    path: '/userlogin',
     name: 'LoginPage',
     component: LoginPage,
   },

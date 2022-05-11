@@ -21,13 +21,13 @@ router.beforeEach((to, from, next) => {
 
   if (to.path == '/logout') {
     sessionStorage.clear();
-    next({ path: '/login' });
-  } else if (to.path == '/login') {
+    next({path: '/userlogin'});
+  } else if (to.path=='/userlogin'){
     if (isLogin != null) {
       next({ path: '/home' });
     }
-  } else if (isLogin == null) {
-    next({ path: '/login' });
+  } else if(isLogin == null) {
+    next({path: '/userlogin'});
   }
 
   next();

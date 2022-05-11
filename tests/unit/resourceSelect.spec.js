@@ -16,11 +16,11 @@ describe('resourceSelect.vue', () => {
       },
       data() {
         return {
-          value: ''
+          value_: ''
         }
       }
     })
     expect(wrapper.exists()).toBe(true)
-    wrapper.vm.$options.watch.value.handler.call(wrapper.vm)
+    wrapper.vm.$options.watch.value_.handler.call(wrapper.vm)
   })
 })

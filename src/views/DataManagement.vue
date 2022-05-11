@@ -2,25 +2,62 @@
   <div>
     <el-row class="el-row-style">
       <el-col :span="6">增加数据</el-col>
-      <el-col :span="8">
-        <resource-select :options="options" @changeValue="changeValueInsert" :get_options="get_options" />
+      <el-col :span="6">
+        <resource-select
+          :options="options"
+          @changeValue="changeValueInsert"
+          :get_options="get_options"
+          :value="insertResource"
+        />
       </el-col>
-      <el-col :span="10">
-        <el-upload class="upload-demo" ref="upload" action="#" :file-list="fileList" :on-change="fileIncrease"
-          :on-remove="fileRemove" :on-preview="filePreview" :auto-upload="false">
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <el-button style="margin-left: 10px" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+      <el-col :span="12">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          action="#"
+          :file-list="fileList"
+          :on-change="fileIncrease"
+          :on-remove="fileRemove"
+          :on-preview="filePreview"
+          :auto-upload="false"
+        >
+          <el-button slot="trigger" size="small" type="primary"
+            >选取文件</el-button
+          >
+          <el-button
+            style="margin-left: 10px"
+            size="small"
+            type="success"
+            @click="submitUpload"
+            :disabled="insertResource == ''"
+            >上传到服务器</el-button
+          >
         </el-upload>
       </el-col>
     </el-row>
     <el-row class="el-row-style">
       <el-col :span="6">删除数据</el-col>
       <el-col :span="6">
-        <resource-select :options="options" @changeValue="changeValueDelete" :get_options="get_options" />
+        <resource-select
+          :options="options"
+          @changeValue="changeValueDelete"
+          :get_options="get_options"
+          :value="deleteResource"
+        />
       </el-col>
       <el-col :span="12">
-        <el-select v-model="deleteFile" filterable placeholder="请选择想要删除的文件">
-          <el-option v-for="item in deletableFile" :key="item" :label="item" :value="item">
+        <el-select
+          v-model="deleteFile"
+          filterable
+          placeholder="请选择想要删除的文件"
+          @visible-change="get_deleteFile"
+        >
+          <el-option
+            v-for="item in deletableFile"
+            :key="item"
+            :label="item"
+            :value="item"
+          >
           </el-option>
         </el-select>
       </el-col>
@@ -31,7 +68,12 @@
     <el-row class="el-row-style">
       <el-col :span="6">修改数据</el-col>
       <el-col :span="6">
-        <resource-select :options="options" @changeValue="changeValueItem" :get_options="get_options" />
+        <resource-select
+          :options="options"
+          @changeValue="changeValueItem"
+          :get_options="get_options"
+          :value="itemResource"
+        />
       </el-col>
       <el-col :span="10">
         <!-- 提供一个搜索item的key -->
@@ -95,14 +137,38 @@ export default {
     changeValueItem(value) {
       this.itemResource = value;
     },
+    get_deleteFile(bool) {
+      if (bool) {
+        if (this.deleteResource == "") {
+          return;
+        }
+        var params = {
+          resource: this.deleteResource,
+        };
+        request_json.GET_WITH_PARAMS(
+          this.get_deletableFile,
+          "/dataname",
+          params
+        );
+      }
+    },
     get_deletableFile(val) {
       this.deletableFile = val.data;
     },
     post_success(bool) {
       if (bool) {
-        alert("上传成功");
+        this.$message({message: "上传文件成功",
+        type: "success"});
       } else {
-        alert("上传失败");
+        this.$message({message: "上传文件失败", type: "error"});
+      }
+    },
+    delete_success(bool) {
+      if (bool) {
+        this.$message({message: "删除文件成功",
+        type: "success"});
+      } else {
+        this.$message({message: "删除文件失败", type: "error"});
       }
     },
     fileIncrease(file) {
@@ -120,7 +186,8 @@ export default {
     },
     submitUpload() {
       if (this.fileList.length === 0) {
-        alert("没有可上传的文件！");
+        this.$message({message: "没有可上传的文件！",
+        type: "warning"});
       }
       for (var i = 0; i < this.fileList.length; i++) {
         var formData = new FormData();
@@ -135,14 +202,25 @@ export default {
       this.fileList = [];
     },
     fdelete() {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
       var formData = new FormData();
       formData.append("resource", this.deleteResource);
       formData.append("type", "delete");
       formData.append("filename", this.deleteFile);
 
-      request_json.POST_File(this.post_success, formData, "/data");
+      request_json.POST_File(this.delete_success, formData, "/data");
       this.deleteFile = "";
       this.deleteResource = "";
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     },
     getItemBody(val) {
       this.itemBody = val.data;
@@ -168,12 +246,16 @@ export default {
     item_post_success(bool) {
       if (bool) {
         this.itemDialogVisible = false;
-        alert(this.itemResource + this.itemKey + "上传成功！");
+        this.$message({message: this.itemResource + this.itemKey + "上传成功！",
+        type: "success",
+        });
         this.itemResource = '';
         this.itemKey = '';
+        this.itemBody = '';
       }
       else {
-        alert(this.itemResource + this.itemKey + "上传失败！");
+        this.$message({message: this.itemResource + this.itemKey + "上传失败！",
+        type: "error"});
       }
     }
   },
@@ -187,21 +269,21 @@ export default {
         }
       },
     },
-    deleteResource: {
-      handler(newDeleteResource) {
-        if (newDeleteResource == "") {
-          return;
-        }
-        var params = {
-          resource: newDeleteResource,
-        };
-        request_json.GET_WITH_PARAMS(
-          this.get_deletableFile,
-          "/dataname",
-          params
-        );
-      },
-    },
+    // deleteResource: {
+    //   handler(newDeleteResource) {
+    //     if (newDeleteResource == "") {
+    //       return;
+    //     }
+    //     var params = {
+    //       resource: newDeleteResource,
+    //     };
+    //     request_json.GET_WITH_PARAMS(
+    //       this.get_deletableFile,
+    //       "/dataname",
+    //       params
+    //     );
+    //   },
+    // },
     itemKey: {
       handler(newItemKey) {
         if (newItemKey == "") {
