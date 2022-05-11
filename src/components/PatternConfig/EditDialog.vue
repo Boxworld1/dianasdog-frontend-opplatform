@@ -1,7 +1,7 @@
 <template>
   <el-dialog style="text-align: center" title="编辑模板" :visible.sync="visible" :show-close="false"
     :before-close="cancelEdit" width="60%">
-    <el-form label-width="80px">
+    <el-form label-width="80px" @submit.native.prevent>
       <el-form-item label="Resource">{{ target }}</el-form-item>
       <el-form-item label="pattern">
         <dynamicTags :type="'pattern'" :Taglist="rawtags" :backflag="backflag" :cancelchange="cancelEdit"

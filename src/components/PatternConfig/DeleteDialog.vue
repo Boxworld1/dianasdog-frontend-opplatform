@@ -8,7 +8,7 @@
           <el-checkbox v-for="pattern in patternList" :label="pattern" :key="pattern" style="
               display: block;
               padding-top: 10px;
-              margin-left: 50px;
+              margin-left: 35%;
               text-align: left;
             ">
           </el-checkbox>
@@ -41,11 +41,11 @@ export default {
     },
     cancelDelete: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
     deletepattern: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
   },
   data() {

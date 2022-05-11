@@ -1,16 +1,23 @@
 <template>
   <div>
-    <div>
-      <el-tag v-for="(tag, index) in curTags" :key="index" :type="types[index % 5]" closable @close="handleClose(tag)">
-        {{ tag }}
-      </el-tag>
-      <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small"
-        @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
-      </el-input>
-      <el-button class="button-new-tag" size="small" @click="showInput">+ New Word</el-button>
-    </div>
-      <el-button v-on:click="cancelchange()">取 消</el-button>
-      <el-button type="primary" v-on:click="submitchange(type, Taglist, curTags)">确 定</el-button>
+    <el-tag v-for="(tag, index) in curTags" :key="index" :type="types[index % 5]" closable @close="handleClose(tag)"
+      style="margin-left: 10px;font-size:small ">
+      {{ tag }}
+    </el-tag>
+    <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" style="width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+    </el-input>
+    <el-button class="button-new-tag" size="small" @click="showInput" style="margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;">+ New Word</el-button>
+    <el-row style="margin-top:10px">
+      <el-button size="medium" v-on:click="cancelchange()">取 消</el-button>
+      <el-button type="primary" size="medium" :disabled="Taglist.length == 0"
+        v-on:click="submitchange(type, Taglist, curTags)">确 定</el-button>
+    </el-row>
   </div>
 </template>
 
@@ -63,7 +70,10 @@ export default {
       let inputValue = this.inputValue;
       if (inputValue) {
         if (this.curTags.indexOf(inputValue) != -1 && this.type != "pattern") {
-          alert("The word has existed.");
+          this.$message({
+            message: "The word has existed.",
+            type: "warning",
+          });
         } else {
           this.curTags.push(inputValue);
         }
@@ -85,23 +95,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.el-tag+.el-tag {
-  margin-left: 10px;
-}
-
-.button-new-tag {
-  margin-left: 10px;
-  height: 32px;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.input-new-tag {
-  width: 90px;
-  margin-left: 10px;
-  vertical-align: bottom;
-}
-</style>
