@@ -57,6 +57,7 @@ export default {
   watch: {
     dialogVisible(curval) {
       this.visible = curval;
+      this.checkedPatterns = []
     },
   },
 };
