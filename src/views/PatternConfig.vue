@@ -137,6 +137,15 @@ export default {
       this.curpattern = rawpattern;
       this.editDialog.dialogVisible = true;
     },
+    openDelConfirm(patterns) {
+      var msg = '此操作将删除模板：[' + patterns.toString() + '],\n是否继续?'
+      return this.$confirm(msg, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+    },
+
     getpattern() {
       if (this.target != "") {
         var msg = {
@@ -156,75 +165,78 @@ export default {
       request_json.POST(this.post_success, msg, "/pattern");
     },
     deletepattern(patterns) {
-      var msg = {
-        type: "pattern",
-        resource: this.target,
-        data: patterns,
-        operation: "delete",
-      };
-      request_json.POST(this.delete_success, msg, "/pattern");
-    },
-    async editpattern(type, Taglist, curTags) {
-      if (Taglist.join('+') == curTags.join('+')) {
-        this.$message({
-          message: "编辑成功",
-          type: "success",
-        });
-        this.editDialog.dialogVisible = false;
-      } else {
+      this.openDelConfirm(patterns).then(() => {
         var msg = {
-          type: type,
+          type: "pattern",
           resource: this.target,
-          data: [Taglist.join('+')],
+          data: patterns,
           operation: "delete",
         };
-        await request_json.POST(this.check, msg, "/pattern").then(() => {
-          if (!this.checkValue) {
-            this.$message({
-              message: "编辑失败",
-              type: "error",
-            });
-          } else if (curTags.length == 0) {
-            this.getpattern();
-            this.$message({
-              message: "编辑成功",
-              type: "success",
-            });
-            this.editDialog.dialogVisible = false;
-          } else {
-            msg.data = [curTags.join('+')];
-            msg.operation = "insert";
-            request_json.POST(this.edit_success, msg, "/pattern");
-          }
-
-        })
-      }
+        request_json.POST(this.delete_success, msg, "/pattern");
+      })
+      .catch(()=>{})
     },
-    cancelPost() {
-      this.postDialog.dialogVisible = false;
-    },
-    cancelDelete() {
-      this.deleteDialog.dialogVisible = false;
-    },
-    cancelEdit() {
-      this.editDialog.backflag = !this.editDialog.backflag;
+  async editpattern(type, Taglist, curTags) {
+    if (Taglist.join('+') == curTags.join('+')) {
+      this.$message({
+        message: "编辑成功",
+        type: "success",
+      });
       this.editDialog.dialogVisible = false;
-    },
-  },
-  watch: {
-    target() {
-      this.getpattern();
-    },
-    patternList(curval) {
-      this.new_patternList = []
-      for (var i in curval) {
-        this.new_patternList.push({ data: curval[i] })
-      }
+    } else {
+      var msg = {
+        type: type,
+        resource: this.target,
+        data: [Taglist.join('+')],
+        operation: "delete",
+      };
+      await request_json.POST(this.check, msg, "/pattern").then(() => {
+        if (!this.checkValue) {
+          this.$message({
+            message: "编辑失败",
+            type: "error",
+          });
+        } else if (curTags.length == 0) {
+          this.getpattern();
+          this.$message({
+            message: "编辑成功",
+            type: "success",
+          });
+          this.editDialog.dialogVisible = false;
+        } else {
+          msg.data = [curTags.join('+')];
+          msg.operation = "insert";
+          request_json.POST(this.edit_success, msg, "/pattern");
+        }
+
+      })
     }
   },
-  created() {
-    request_json.GET(this.read_resource, "/category");
+  cancelPost() {
+    this.postDialog.dialogVisible = false;
   },
+  cancelDelete() {
+    this.deleteDialog.dialogVisible = false;
+  },
+  cancelEdit() {
+    this.editDialog.backflag = !this.editDialog.backflag;
+    this.editDialog.dialogVisible = false;
+  },
+},
+watch: {
+  target() {
+    this.getpattern();
+  },
+  patternList(curval) {
+    this.new_patternList = []
+    for (var i in curval) {
+      this.new_patternList.push({ data: curval[i] })
+    }
+  }
+},
+created() {
+  request_json.GET(this.read_resource, "/category");
+},
 };
 </script>
 
