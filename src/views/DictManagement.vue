@@ -1,6 +1,6 @@
 <template>
-<div>
-  <el-row class="el-row-style">
+  <div>
+    <el-row class="el-row-style">
       <el-col :span="6">特型卡名称</el-col>
       <el-col :span="12">
         <el-select v-model="target" placeholder="请选择特型卡名称" style="margin-right: 45px">
@@ -12,18 +12,18 @@
     <el-row class="el-row-style">
       <el-col :span="6">Intent</el-col>
       <el-col :span="12">
-        <dynamicTags v-if="target!=''" :type="'intent'" :Taglist="intentList" :backflag="backflag" :cancelchange="cancelchange"
-        :submitchange="submitchange" />
+        <dynamicTags v-if="target != ''" :type="'intent'" :Taglist="intentList" :backflag="backflag"
+          :cancelchange="cancelchange" :submitchange="submitchange" />
       </el-col>
     </el-row>
     <el-row class="el-row-style">
       <el-col :span="6">Garbage</el-col>
       <el-col :span="12">
-        <dynamicTags v-if="target!=''" :type="'garbage'" :Taglist="garbageList" :backflag="backflag" :cancelchange="cancelchange"
-        :submitchange="submitchange" />
+        <dynamicTags v-if="target != ''" :type="'garbage'" :Taglist="garbageList" :backflag="backflag"
+          :cancelchange="cancelchange" :submitchange="submitchange" />
       </el-col>
     </el-row>
-  <!-- <el-form>
+    <!-- <el-form>
     <el-form-item label="特型卡名称">
       <el-select v-model="target" placeholder="请选择特型卡名称" style="margin-right: 45px">
         <el-option v-for="(resource, index) in resourceList" :key="index" :label="resource" :value="resource">
@@ -69,7 +69,7 @@ export default {
       this.garbageList = param.data;
     },
     check(bool) {
-      this.checkValue = bool
+      this.checkValue = bool;
     },
     post_success(bool) {
       if (bool) {
@@ -105,7 +105,16 @@ export default {
         } else {
           msg.data = deletelist;
           msg.operation = "delete";
-          request_json.POST(this.post_success, msg, "/pattern");
+          request_json.POST(this.post_success, msg, "/pattern").then(() => {
+            var msg = {
+              resource: this.target,
+              type: mytype,
+            };
+            if (mytype == "intent")
+              request_json.GET_WITH_PARAMS(this.read_intent, "/pattern", msg);
+            else
+              request_json.GET_WITH_PARAMS(this.read_garbage, "/pattern", msg);
+          })
         }
       })
     },
